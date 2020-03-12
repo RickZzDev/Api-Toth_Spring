@@ -19,7 +19,11 @@ public class Escola {
 
     @Column(unique = true)
     private String cnpj;
-    private String endereco;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id")
+    private Endereco endereco;
+
     private Boolean pagamentoStatus;
 
     public Long getId() {
@@ -66,11 +70,11 @@ public class Escola {
         this.cnpj = cnpj;
     }
 
-    public String getEndereco() {
+    public Endereco getEndereco() {
         return endereco;
     }
 
-    public void setEndereco(String endereco) {
+    public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
 
