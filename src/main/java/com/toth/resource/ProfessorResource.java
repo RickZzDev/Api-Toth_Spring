@@ -13,7 +13,7 @@ import java.util.List;
 public class ProfessorResource {
 
     @Autowired
-    private ProfessorRepository professorRepository
+    private ProfessorRepository professorRepository;
 
     @GetMapping("")
     public List<Professor> getProfessors(){return professorRepository.findAll(); }
