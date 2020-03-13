@@ -43,9 +43,8 @@ public class ProfessorResource {
 
     @PutMapping("/professores")
 
-    public ResponseEntity<String> atualizar(@RequestBody Professor professor ){
+    public void atualizar(@RequestBody Professor professor ){
         professorRepository.save(professor);
-        return ResponseEntity<String>("TESTE",HttpStatus.NO_CONTENT)
     }
 
 

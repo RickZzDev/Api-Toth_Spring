@@ -4,7 +4,10 @@ package com.toth.model;
 import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Table(name = "professor")
@@ -14,14 +17,19 @@ public class Professor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Column(unique = true)
-    private Long rg;
 
+    @NotNull(message = "Campo rg obrigatorio")
+    @Column(unique = true)
+    @Size(min= 9, max = 9, message = "Quantidade de caracteres incorreta")
+    private String rg;
+
+    @Size(min = 3, message = "O nome deve possuir mais de 3 caracteres")
     private String nome;
 
+    @NotBlank(message = "Campo login deve ser obrigatorio")
     private String login;
 
+    @NotBlank(message = "Campo rg obrigatorio")
     private String senha;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -37,11 +45,11 @@ public class Professor {
         this.id = id;
     }
 
-    public Long getRg() {
+    public String getRg() {
         return rg;
     }
 
-    public void setRg(Long rg) {
+    public void setRg(String rg) {
         this.rg = rg;
     }
 
