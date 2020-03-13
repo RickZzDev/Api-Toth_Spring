@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,13 +34,13 @@ public class EscolaResource {
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public Escola setEscola(@RequestBody Escola escola) {
+    public Escola setEscola(@Valid @RequestBody Escola escola) {
         return escolaRepository.save(escola);
     }
 
     @PutMapping("")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public Escola updateEscola(@RequestBody Escola escola) {
+    public Escola updateEscola(@Valid @RequestBody Escola escola) {
         return escolaRepository.save(escola);
     }
 

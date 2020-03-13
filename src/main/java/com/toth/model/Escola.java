@@ -3,6 +3,9 @@ package com.toth.model;
 import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "escola")
@@ -14,9 +17,11 @@ public class Escola {
 
     private String email;
     private String nome;
+
+    @NotNull
+    @Size(min = 3, max = 50, message = "O Login deve ter no mínimo 3 caracteres e no máximo 50.")
     private String login;
     private String senha;
-
     @Column(unique = true)
     private String cnpj;
 
@@ -34,9 +39,7 @@ public class Escola {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public void setEmail(String email) { this.email = email; }
 
     public String getNome() {
         return nome;
