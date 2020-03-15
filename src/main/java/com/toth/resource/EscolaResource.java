@@ -1,19 +1,19 @@
 package com.toth.resource;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.toth.model.Escola;
 import com.toth.repository.EscolaRepository;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,8 +52,9 @@ public class EscolaResource {
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> setEscola(@RequestBody @Valid Escola escola, BindingResult bindResult){
+
         if(bindResult.hasErrors())
-            return ResponseEntity.badRequest().body(ValidationErrorBuilder.fromBindingErrors(bindResult));
+            return ResponseEntity.badRequest().body(FormatarErros.formatarErros(bindResult.getFieldErrors()));
 
         return  ResponseEntity.ok(escolaRepository.save(escola));
     }

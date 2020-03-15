@@ -1,5 +1,6 @@
 package com.toth.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;

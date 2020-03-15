@@ -1,5 +1,6 @@
 package com.toth.resource;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.toth.model.Endereco;
 import com.toth.repository.EnderecoRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,6 +2,7 @@ package com.toth.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "endereco")
@@ -26,7 +27,7 @@ public class Endereco {
     @NotBlank(message = "O estado deve ser preenchido")
     private String estado;
 
-    @NotBlank(message = "O cep deve ser preenchido")
+    @NotNull
     private String cep;
 
     private String complemento;
