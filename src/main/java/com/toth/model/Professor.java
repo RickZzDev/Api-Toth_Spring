@@ -4,6 +4,7 @@ package com.toth.model;
 import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -14,10 +15,12 @@ public class Professor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @NotNull(message = "não pode ser null")
     @Column(unique = true)
     private Long rg;
 
+    @NotNull(message = "não pode ser null")
+    @NotBlank(message = "Nome não pode estar vazio")
     private String nome;
 
     private String login;

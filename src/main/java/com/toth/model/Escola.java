@@ -4,8 +4,10 @@ import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.websocket.OnError;
 
 @Entity
 @Table(name = "escola")
@@ -21,7 +23,10 @@ public class Escola {
     @NotNull
     @Size(min = 3, max = 50, message = "O Login deve ter no mínimo 3 caracteres e no máximo 50.")
     private String login;
+
+    @NotBlank(message = "Senha é obrigatório")
     private String senha;
+
     @Column(unique = true)
     private String cnpj;
 
