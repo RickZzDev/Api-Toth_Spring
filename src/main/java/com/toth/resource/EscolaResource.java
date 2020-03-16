@@ -1,16 +1,11 @@
 package com.toth.resource;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.toth.model.Escola;
 import com.toth.repository.EscolaRepository;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -37,38 +32,30 @@ public class EscolaResource {
         return escolaProcurada.isPresent() ? ResponseEntity.ok(escolaProcurada) : ResponseEntity.notFound().build();
     }
 
-    public static class ValidationErrorBuilder {
-
-        public static ValidationError fromBindingErrors(Errors errors) {
-            ValidationError error = new ValidationError("Erro de validação. " + errors.getErrorCount() + " error(s)");
-            for (ObjectError objectError : errors.getAllErrors()) {
-                error.addValidationError(objectError.getDefaultMessage());
-            }
-            return error;
-        }
-    }
-
-
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> setEscola(@RequestBody @Valid Escola escola, BindingResult bindResult){
-
         if(bindResult.hasErrors())
-            return ResponseEntity.badRequest().body(FormatarErros.formatarErros(bindResult.getFieldErrors()));
+            return ResponseEntity.badRequest().body(ValidacoesFormat.formatarErros(bindResult));
 
         return  ResponseEntity.ok(escolaRepository.save(escola));
     }
 
     @PutMapping("")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public Escola updateEscola(@Valid @RequestBody Escola escola) {
-        return escolaRepository.save(escola);
+    public ResponseEntity<?> updateEscola(@Valid @RequestBody Escola escola, BindingResult bindingResult) {
+        if(bindingResult.hasErrors())
+            return ResponseEntity.badRequest().body(ValidacoesFormat.formatarErros(bindingResult));
+
+        return ResponseEntity.ok(escolaRepository.save(escola));
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteEscola(@PathVariable Long id) {
-        escolaRepository.deleteById(id);
+    public ResponseEntity<?> deleteEscola(@PathVariable Long id) {
+        if(escolaRepository.existsById(id))
+            return ResponseEntity.noContent().build();
+        else
+            return ResponseEntity.notFound().build();
     }
 
 }

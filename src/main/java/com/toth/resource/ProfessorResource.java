@@ -17,17 +17,6 @@ import java.util.List;
 @RequestMapping("/professores")
 public class ProfessorResource {
 
-    public static class ValidationErrorBuilder {
-
-        public static ValidationError fromBindingErrors(Errors errors) {
-            ValidationError error = new ValidationError("Erro de validação. " + errors.getErrorCount() + " error(s)");
-            for (ObjectError objectError : errors.getAllErrors()) {
-                error.addValidationError(objectError.getDefaultMessage());
-            }
-            return error;
-        }
-    }
-
     @Autowired
     private ProfessorRepository professorRepository;
 
@@ -37,7 +26,7 @@ public class ProfessorResource {
     @PostMapping("")
     public ResponseEntity<?> setProfessor(@Valid @RequestBody Professor professor, BindingResult bindResult) {
         if(bindResult.hasErrors()){
-            return ResponseEntity.badRequest().body(EscolaResource.ValidationErrorBuilder.fromBindingErrors(bindResult));
+            return ResponseEntity.badRequest().body(ValidacoesFormat.formatarErros(bindResult));
         }
         else {
             return  ResponseEntity.ok(professorRepository.save(professor));

@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import javax.websocket.OnError;
 
 @Entity
@@ -18,21 +15,31 @@ public class Escola {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Email(message = "O email deve ser válido!")
+    @NotEmpty(message = "O email é obrigatório!")
+    @Size(min = 15, max = 255, message = "O email deve conter entre 15 e 255 caracteres")
     private String email;
+
+    @NotEmpty(message = "O nome é obrigatório!")
+    @Size(min = 8, max = 255, message = "O nome deve conter entre 8 e 255 caracteres")
     private String nome;
 
-    @NotNull
-    @Size(min = 3, max = 50, message = "O Login deve ter no mínimo 3 caracteres e no máximo 50.")
+    @NotEmpty
+    @Size(min = 3, max = 255, message = "O Login deve ter no mínimo 3 caracteres e no máximo 255.")
     private String login;
 
-    @NotBlank(message = "Senha é obrigatório")
+    @NotEmpty(message = "A senha é obrigatória!")
+    @Size(min = 15, max = 255, message = "A senha deve conter entre 15 e 255 caracteres")
     private String senha;
 
+    @NotEmpty(message = "O cnpj é obrigatório!")
+    @Size(min = 3, max = 255, message = "O cnpj deve conter entre 3 e 255 caracteres")
     @Column(unique = true)
     private String cnpj;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id")
+    @NotEmpty
     private Endereco endereco;
 
     private Boolean pagamentoStatus;
