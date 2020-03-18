@@ -2,7 +2,9 @@ package com.toth.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "endereco")
@@ -12,22 +14,24 @@ public class Endereco {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "O número deve ser preenchido")
+    @NotEmpty(message = "O número deve ser preenchido")
+    @Size(min = 1, max = 4, message = "O número deve ter entre 1 e 4 caracteres")
     private String numero;
 
-    @NotBlank(message = "O logradouro deve ser preenchido")
+    @NotEmpty(message = "O logradouro deve ser preenchido")
+    @Size(min = 1, max = 4, message = "O número deve ter até 225 caracteres")
     private String logradouro;
 
-    @NotBlank(message = "O bairro deve ser preenchido")
+    @NotEmpty(message = "O bairro deve ser preenchido")
     private String bairro;
 
-    @NotBlank(message = "O cidade deve ser preenchido")
+    @NotEmpty(message = "O cidade deve ser preenchido")
     private String cidade;
 
-    @NotBlank(message = "O estado deve ser preenchido")
+    @NotEmpty(message = "O estado deve ser preenchido")
     private String estado;
 
-    @NotNull
+    @NotEmpty(message = "O CEP deve ser preenchido!")
     private String cep;
 
     private String complemento;
