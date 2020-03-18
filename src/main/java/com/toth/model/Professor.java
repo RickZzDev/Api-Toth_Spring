@@ -17,13 +17,22 @@ public class Professor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+<<<<<<< HEAD
 
     @NotNull(message = "Campo rg obrigatorio")
+=======
+    @NotNull(message = "não pode ser null")
+>>>>>>> e7f5c51581ed990ef6978035e9c8de6e5d3af807
     @Column(unique = true)
     @Size(min= 9, max = 9, message = "Quantidade de caracteres incorreta")
     private String rg;
 
+<<<<<<< HEAD
     @Size(min = 3, message = "O nome deve possuir mais de 3 caracteres")
+=======
+    @NotNull(message = "não pode ser null")
+    @NotBlank(message = "Nome não pode estar vazio")
+>>>>>>> e7f5c51581ed990ef6978035e9c8de6e5d3af807
     private String nome;
 
     @NotBlank(message = "Campo login deve ser obrigatorio")
