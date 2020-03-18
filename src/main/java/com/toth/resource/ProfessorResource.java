@@ -4,15 +4,12 @@ package com.toth.resource;
 import com.toth.model.Professor;
 import com.toth.repository.ProfessorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-<<<<<<< HEAD
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-=======
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
-import org.springframework.validation.ObjectError;
->>>>>>> e7f5c51581ed990ef6978035e9c8de6e5d3af807
+
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,10 +22,7 @@ public class ProfessorResource {
 
     @Autowired
     private ProfessorRepository professorRepository;
-<<<<<<< HEAD
-    
-=======
->>>>>>> e7f5c51581ed990ef6978035e9c8de6e5d3af807
+
 
     @GetMapping("")
     public List<Professor> getProfessors(){return professorRepository.findAll(); }
@@ -40,10 +34,13 @@ public class ProfessorResource {
     }
 
     @PostMapping("")
-<<<<<<< HEAD
     @ResponseStatus(HttpStatus.CREATED)
-    public Professor setProfessor(@Valid @RequestBody Professor professor) {
-        return professorRepository.save(professor);
+    public ResponseEntity<?> setProfessor(@Valid @RequestBody Professor professor, BindingResult bindingResult) {
+        if(bindingResult.hasErrors())
+            return ResponseEntity.badRequest().body(ValidacoesFormat.formatarErros(bindingResult));
+
+        Optional<?> professorProcurado = professorRepository.findByLogin(professor.getLogin());
+        return ResponseEntity.ok(professorRepository.save(professor));
     }
 
     @DeleteMapping("/{id}")
@@ -58,16 +55,7 @@ public class ProfessorResource {
         professorRepository.save(professor);
     }
 
-=======
-    public ResponseEntity<?> setProfessor(@Valid @RequestBody Professor professor, BindingResult bindResult) {
-        if(bindResult.hasErrors()){
-            return ResponseEntity.badRequest().body(ValidacoesFormat.formatarErros(bindResult));
-        }
-        else {
-            return  ResponseEntity.ok(professorRepository.save(professor));
-        }
-//        professorRepository.save(professor);
-    }
->>>>>>> e7f5c51581ed990ef6978035e9c8de6e5d3af807
+
+
 
 }

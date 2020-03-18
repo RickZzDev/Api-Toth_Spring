@@ -21,7 +21,7 @@ public class Escola {
     private String email;
 
     @NotEmpty(message = "O nome é obrigatório!")
-    @Size(min = 8, max = 255, message = "O nome deve conter entre 8 e 255 caracteres")
+    @Size(min = 3, max = 255, message = "O nome deve conter entre 8 e 255 caracteres")
     private String nome;
 
     @NotEmpty
@@ -29,7 +29,7 @@ public class Escola {
     private String login;
 
     @NotEmpty(message = "A senha é obrigatória!")
-    @Size(min = 15, max = 255, message = "A senha deve conter entre 15 e 255 caracteres")
+    @Size(min = 5, max = 255, message = "A senha deve conter entre 15 e 255 caracteres")
     private String senha;
 
     @NotEmpty(message = "O cnpj é obrigatório!")
@@ -39,7 +39,6 @@ public class Escola {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id")
-    @NotEmpty
     private Endereco endereco;
 
     private Boolean pagamentoStatus;

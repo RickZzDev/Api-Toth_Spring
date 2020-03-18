@@ -37,7 +37,7 @@ public class EscolaResource {
     public ResponseEntity<?> setEscola(@RequestBody @Valid Escola escola, BindingResult bindResult){
         if(bindResult.hasErrors())
             return ResponseEntity.badRequest().body(ValidacoesFormat.formatarErros(bindResult));
-
+        System.out.println(escola);
         return  ResponseEntity.ok(escolaRepository.save(escola));
     }
 
