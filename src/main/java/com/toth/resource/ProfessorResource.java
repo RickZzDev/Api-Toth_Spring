@@ -39,15 +39,14 @@ public class ProfessorResource {
         if(bindingResult.hasErrors())
             return ResponseEntity.badRequest().body(ValidacoesFormat.formatarErros(bindingResult));
 
-        Optional <?> professorProcurado = professorRepository.findByLogin(professor.getLogin());
-        Optional <?> rgProcurado = professorRepository.findByRg(professor.getRg());
-        if(professorProcurado.isPresent()){
+
+        if(professorRepository.existsByLogin(professor.getLogin()))
             return ResponseEntity.badRequest().body("Login ja cadastrado");
-        }if(rgProcurado.isPresent()){
+        if(professorRepository.existsByRg(professor.getRg()))
             return ResponseEntity.badRequest().body("Rg ja cadastrado");
-        }else{
+        else
             return ResponseEntity.ok(professorRepository.save(professor));
-        }
+
 
 
     }
