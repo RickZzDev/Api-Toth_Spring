@@ -38,7 +38,7 @@ public class EscolaAutenticacaoResource {
 
     @PostMapping("/cadastro")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> escolaRegistro(@RequestBody @Valid Escola escola) {
+    public ResponseEntity<?> escolaCadastro(@RequestBody @Valid Escola escola) {
         if(escolaRepository.existsByLogin(escola.getLogin()))
             return ResponseEntity.badRequest().body(new JSONObject().put("status", "Login já cadastrado").toString());
         else if(escolaRepository.existsByCnpj(escola.getCnpj()))
