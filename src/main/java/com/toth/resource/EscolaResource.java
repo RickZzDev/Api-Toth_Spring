@@ -52,9 +52,10 @@ public class EscolaResource {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteEscola(@PathVariable Long id) {
-        if(escolaRepository.existsById(id))
+        if(escolaRepository.existsById(id)){
+            escolaRepository.deleteById(id);
             return ResponseEntity.noContent().build();
-        else
+        } else
             return ResponseEntity.notFound().build();
     }
 
