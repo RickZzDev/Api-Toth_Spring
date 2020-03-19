@@ -37,6 +37,7 @@ public class Escola {
     @NotEmpty(message = "O cnpj é obrigatório!")
     @Size(min = 3, max = 255, message = "O cnpj deve conter entre 3 e 255 caracteres")
     @Column(unique = true)
+    @CNPJ
     private String cnpj;
 
     @OneToOne(cascade = CascadeType.ALL)
