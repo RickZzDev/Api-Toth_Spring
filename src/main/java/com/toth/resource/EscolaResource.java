@@ -37,8 +37,15 @@ public class EscolaResource {
     public ResponseEntity<?> setEscola(@RequestBody @Valid Escola escola, BindingResult bindResult){
         if(bindResult.hasErrors())
             return ResponseEntity.badRequest().body(ValidacoesFormat.formatarErros(bindResult));
-        System.out.println(escola);
-        return  ResponseEntity.ok(escolaRepository.save(escola));
+        Optional<?> loginProcurado = escolaRepository.findByLogin(escola.getLogin());
+        Optional<?> cnpjProcurado = escolaRepository.findByCnpj(escola.getCnpj());
+        if(loginProcurado.isPresent()){
+            return ResponseEntity.badRequest().body("Login ja cadastrado");
+        }if(cnpjProcurado.isPresent()){
+            return ResponseEntity.badRequest().body("cnpj ja cadastrado");
+        }else{
+            return  ResponseEntity.ok(escolaRepository.save(escola));
+        }
     }
 
     @PutMapping("")
