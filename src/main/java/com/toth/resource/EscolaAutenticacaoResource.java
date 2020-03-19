@@ -5,13 +5,12 @@ import com.toth.repository.EscolaRepository;
 import org.hibernate.loader.custom.Return;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 import static org.springframework.http.ResponseEntity.badRequest;
@@ -35,6 +34,17 @@ public class EscolaAutenticacaoResource {
         else
             return ResponseEntity.notFound().build();
 
+    }
+
+    @PostMapping("/cadastro")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<?> escolaRegistro(@RequestBody @Valid Escola escola) {
+        if(escolaRepository.existsByLogin(escola.getLogin()))
+            return ResponseEntity.badRequest().body(new JSONObject().put("status", "Login já cadastrado").toString());
+        else if(escolaRepository.existsByCnpj(escola.getCnpj()))
+            return ResponseEntity.badRequest().body(new JSONObject().put("status", "CNPJ já cadastrado").toString());
+        else
+            return ResponseEntity.ok(new JSONObject().put("status", "Escola cadastrada com sucesso").toString());
     }
 
 }

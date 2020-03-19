@@ -37,14 +37,13 @@ public class EscolaResource {
     public ResponseEntity<?> setEscola(@RequestBody @Valid Escola escola, BindingResult bindResult){
         if(bindResult.hasErrors())
             return ResponseEntity.badRequest().body(ValidacoesFormat.formatarErros(bindResult));
-        Optional<?> loginProcurado = escolaRepository.findByLogin(escola.getLogin());
-        Optional<?> cnpjProcurado = escolaRepository.findByCnpj(escola.getCnpj());
-        if(loginProcurado.isPresent())
+
+        if(escolaRepository.existsByLogin(escola.getLogin()))
             return ResponseEntity.badRequest().body("Login ja cadastrado");
-        if(cnpjProcurado.isPresent())
+        else if(escolaRepository.existsByCnpj(escola.getCnpj()))
             return ResponseEntity.badRequest().body("cnpj ja cadastrado");
         else
-            return  ResponseEntity.ok(escolaRepository.save(escola));
+            return ResponseEntity.ok(escolaRepository.save(escola));
         
     }
 
