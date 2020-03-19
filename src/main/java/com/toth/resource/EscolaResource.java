@@ -39,13 +39,13 @@ public class EscolaResource {
             return ResponseEntity.badRequest().body(ValidacoesFormat.formatarErros(bindResult));
         Optional<?> loginProcurado = escolaRepository.findByLogin(escola.getLogin());
         Optional<?> cnpjProcurado = escolaRepository.findByCnpj(escola.getCnpj());
-        if(loginProcurado.isPresent()){
+        if(loginProcurado.isPresent())
             return ResponseEntity.badRequest().body("Login ja cadastrado");
-        }if(cnpjProcurado.isPresent()){
+        if(cnpjProcurado.isPresent())
             return ResponseEntity.badRequest().body("cnpj ja cadastrado");
-        }else{
+        else
             return  ResponseEntity.ok(escolaRepository.save(escola));
-        }
+        
     }
 
     @PutMapping("")
