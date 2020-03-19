@@ -39,8 +39,9 @@ public class ProfessorResource {
         if(bindingResult.hasErrors())
             return ResponseEntity.badRequest().body(ValidacoesFormat.formatarErros(bindingResult));
 
-        Optional<?> professorProcurado = professorRepository.findByLogin(professor.getLogin());
-        return ResponseEntity.ok(professorRepository.save(professor));
+//        Optional <?> professorProcurado = professorRepository.findByLogin(professor.getLogin());
+//        professorProcurado.isPresent() ? ResponseEntity.badRequest().body("login cadastrado") :
+        return  ResponseEntity.ok(professorRepository.save(professor));
     }
 
     @DeleteMapping("/{id}")

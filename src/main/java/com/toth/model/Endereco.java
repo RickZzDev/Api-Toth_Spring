@@ -19,7 +19,7 @@ public class Endereco {
     private String numero;
 
     @NotEmpty(message = "O logradouro deve ser preenchido")
-    @Size(min = 1, max = 4, message = "O número deve ter até 225 caracteres")
+    @Size(min = 1, max = 85, message = "O número deve ter até 225 caracteres")
     private String logradouro;
 
     @NotEmpty(message = "O bairro deve ser preenchido")
