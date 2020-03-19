@@ -2,6 +2,7 @@ package com.toth.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.validator.constraints.UniqueElements;
+import org.hibernate.validator.constraints.br.CNPJ;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -26,6 +27,7 @@ public class Escola {
 
     @NotEmpty
     @Size(min = 3, max = 255, message = "O Login deve ter no mínimo 3 caracteres e no máximo 255.")
+    @Column(unique = true)
     private String login;
 
     @NotEmpty(message = "A senha é obrigatória!")
