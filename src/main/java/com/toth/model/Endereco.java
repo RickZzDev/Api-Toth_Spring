@@ -23,17 +23,22 @@ public class Endereco {
     private String logradouro;
 
     @NotEmpty(message = "O bairro deve ser preenchido")
+    @Size(max = 50, message="O bairro deve ter até 50 caracteres")
     private String bairro;
 
     @NotEmpty(message = "O cidade deve ser preenchido")
+    @Size(max = 50, message="A cidade deve ter até 50 caracteres")
     private String cidade;
 
     @NotEmpty(message = "O estado deve ser preenchido")
+    @Size(max = 50, message="O estado deve ter até 50 caracteres")
     private String estado;
 
     @NotEmpty(message = "O CEP deve ser preenchido!")
+    @Size(max = 9, message="O cep deve ter até 9 caracteres")
     private String cep;
 
+    @Size(max = 225, message="O complemento deve ter até 225 caracteres")
     private String complemento;
 
     public Long getId() {
