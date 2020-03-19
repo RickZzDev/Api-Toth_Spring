@@ -33,23 +33,7 @@ public class ProfessorResource {
        return professorProcurado.isPresent() ? ResponseEntity.ok(professorProcurado):ResponseEntity.notFound().build();
     }
 
-    @PostMapping("")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> setProfessor(@Valid @RequestBody Professor professor, BindingResult bindingResult) {
-        if(bindingResult.hasErrors())
-            return ResponseEntity.badRequest().body(ValidacoesFormat.formatarErros(bindingResult));
 
-
-        if(professorRepository.existsByLogin(professor.getLogin()))
-            return ResponseEntity.badRequest().body("Login ja cadastrado");
-        if(professorRepository.existsByRg(professor.getRg()))
-            return ResponseEntity.badRequest().body("Rg ja cadastrado");
-        else
-            return ResponseEntity.ok(professorRepository.save(professor));
-
-
-
-    }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

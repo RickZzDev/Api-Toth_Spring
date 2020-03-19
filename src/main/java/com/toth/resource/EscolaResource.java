@@ -32,20 +32,7 @@ public class EscolaResource {
         return escolaProcurada.isPresent() ? ResponseEntity.ok(escolaProcurada) : ResponseEntity.notFound().build();
     }
 
-    @PostMapping("")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> setEscola(@RequestBody @Valid Escola escola, BindingResult bindResult){
-        if(bindResult.hasErrors())
-            return ResponseEntity.badRequest().body(ValidacoesFormat.formatarErros(bindResult));
 
-        if(escolaRepository.existsByLogin(escola.getLogin()))
-            return ResponseEntity.badRequest().body("Login ja cadastrado");
-        else if(escolaRepository.existsByCnpj(escola.getCnpj()))
-            return ResponseEntity.badRequest().body("cnpj ja cadastrado");
-        else
-            return ResponseEntity.ok(escolaRepository.save(escola));
-        
-    }
 
     @PutMapping("")
     @ResponseStatus(HttpStatus.NO_CONTENT)

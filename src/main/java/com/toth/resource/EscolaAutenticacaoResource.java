@@ -32,7 +32,7 @@ public class EscolaAutenticacaoResource {
             else
                 return ResponseEntity.badRequest().body(new JSONObject().put("status", "Senha inválida").toString());
         else
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new JSONObject().put("status", "Login não cadastrado").toString());
 
     }
 
