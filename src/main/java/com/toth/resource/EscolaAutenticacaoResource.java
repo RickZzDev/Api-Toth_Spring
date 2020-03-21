@@ -17,6 +17,7 @@ import static org.springframework.http.ResponseEntity.badRequest;
 
 @RestController
 @RequestMapping("/escolas")
+@CrossOrigin
 public class EscolaAutenticacaoResource {
 
     @Autowired
@@ -32,7 +33,7 @@ public class EscolaAutenticacaoResource {
             else
                 return ResponseEntity.badRequest().body(new JSONObject().put("status", "Senha inválida").toString());
         else
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new JSONObject().put("status", "Login não cadastrado").toString());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new JSONObject().put("status", "Escola não cadastrada").toString());
 
     }
 

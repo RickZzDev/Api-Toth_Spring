@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Optional;
 
-@RestController
+@RestController()
 @RequestMapping("/professores")
 public class ProfessorAutenticacao {
 
