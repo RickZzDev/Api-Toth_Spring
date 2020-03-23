@@ -29,7 +29,7 @@ public class ProfessorAutenticacao {
             else
                 return ResponseEntity.badRequest().body(new JSONObject().put("status", "Senha inválida").toString());
         else
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new JSONObject().put("status", "Usuario com esse amil não cadasrado").toString());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new JSONObject().put("status", "Usuario com esse email não cadasrado").toString());
     }
 
     @PostMapping("/cadastro")
