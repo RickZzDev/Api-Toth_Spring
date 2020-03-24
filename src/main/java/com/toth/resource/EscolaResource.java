@@ -2,6 +2,7 @@ package com.toth.resource;
 
 import com.toth.model.Escola;
 import com.toth.repository.EscolaRepository;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,10 +30,9 @@ public class EscolaResource {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> getEscolaById(@PathVariable Long id) {
         Optional<?> escolaProcurada = escolaRepository.findById(id);
-        return escolaProcurada.isPresent() ? ResponseEntity.ok(escolaProcurada) : ResponseEntity.notFound().build();
+        return escolaProcurada.isPresent() ? ResponseEntity.ok(escolaProcurada) :
+                                             ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponsesBody.ESCOLA_NOT_FOUND);
     }
-
-
 
     @PutMapping("")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -49,7 +49,7 @@ public class EscolaResource {
             escolaRepository.deleteById(id);
             return ResponseEntity.noContent().build();
         } else
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponsesBody.ESCOLA_NOT_FOUND);
     }
 
 }

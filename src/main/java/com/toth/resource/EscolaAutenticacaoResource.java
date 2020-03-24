@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -31,21 +32,25 @@ public class EscolaAutenticacaoResource {
             if(escolaProcurada.get().getSenha().equals(escola.getSenha()))
                 return ResponseEntity.ok().body(new JSONObject().put("status", "autenticado").toString());
             else
-                return ResponseEntity.badRequest().body(new JSONObject().put("status", "Senha inválida").toString());
+                return ResponseEntity.badRequest().body(ResponsesBody.SENHA_INVALIDA);
         else
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new JSONObject().put("status", "Escola não cadastrada").toString());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponsesBody.ESCOLA_NOT_FOUND);
 
     }
 
     @PostMapping("/cadastro")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> escolaCadastro(@RequestBody @Valid Escola escola) {
+    public ResponseEntity<?> escolaCadastro(@RequestBody @Valid Escola escola, BindingResult bindingResult) {
+
+        if(bindingResult.hasErrors())
+            return ResponseEntity.badRequest().body(ValidacoesFormat.formatarErros(bindingResult));
+
         if(escolaRepository.existsByLogin(escola.getLogin()))
-            return ResponseEntity.badRequest().body(new JSONObject().put("status", "Login já cadastrado").toString());
+            return ResponseEntity.badRequest().body(ResponsesBody.LOGIN_CADASTRADO);
         else if(escolaRepository.existsByCnpj(escola.getCnpj()))
-            return ResponseEntity.badRequest().body(new JSONObject().put("status", "CNPJ já cadastrado").toString());
+            return ResponseEntity.badRequest().body(ResponsesBody.CNPJ_CADASTRADO);
         else
-            return ResponseEntity.ok(new JSONObject().put("status", "Escola cadastrada com sucesso").toString());
+            return ResponseEntity.ok().body(escolaRepository.save(escola));
     }
 
 }

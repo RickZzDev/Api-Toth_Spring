@@ -27,9 +27,9 @@ public class ProfessorAutenticacao {
             if(professorProcurado.get().getSenha().equals(professor.getSenha()))
                 return ResponseEntity.ok().body(new JSONObject().put("status", "autenticado").toString());
             else
-                return ResponseEntity.badRequest().body(new JSONObject().put("status", "Senha inválida").toString());
+                return ResponseEntity.badRequest().body(ResponsesBody.SENHA_INVALIDA);
         else
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new JSONObject().put("status", "Usuario com esse email não cadasrado").toString());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponsesBody.PROFESSOR_NOT_FOUND);
     }
 
     @PostMapping("/cadastro")
@@ -39,9 +39,9 @@ public class ProfessorAutenticacao {
             return ResponseEntity.badRequest().body(ValidacoesFormat.formatarErros(bindingResult));
 
         if(professorRepository.existsByLogin(professor.getLogin()))
-            return ResponseEntity.badRequest().body(new JSONObject().put("msg", "Login ja cadastrado").toString());
+            return ResponseEntity.badRequest().body(ResponsesBody.LOGIN_CADASTRADO);
         if(professorRepository.existsByRg(professor.getRg()))
-            return ResponseEntity.badRequest().body(new JSONObject().put("msg", "Rg ja cadsatrado").toString());
+            return ResponseEntity.badRequest().body(ResponsesBody.RG_CADASTRADO);
         else
             return ResponseEntity.ok(professorRepository.save(professor));
 
