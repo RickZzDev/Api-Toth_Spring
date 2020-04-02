@@ -1,4 +1,4 @@
-package com.toth.resource;
+package com.toth.validations;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

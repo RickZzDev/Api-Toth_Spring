@@ -2,6 +2,8 @@ package com.toth.resource;
 
 import com.toth.model.Escola;
 import com.toth.repository.EscolaRepository;
+import com.toth.validations.ResponsesBody;
+import com.toth.validations.ValidacoesFormat;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
