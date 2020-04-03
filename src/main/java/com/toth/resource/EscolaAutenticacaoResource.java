@@ -2,8 +2,7 @@ package com.toth.resource;
 
 import com.toth.model.Escola;
 import com.toth.repository.EscolaRepository;
-import com.toth.validations.ResponsesBody;
-import com.toth.validations.ValidacoesFormat;
+
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,9 +29,9 @@ public class EscolaAutenticacaoResource {
             if(escolaProcurada.get().getSenha().equals(escola.getSenha()))
                 return ResponseEntity.ok().body(new JSONObject().put("status", "autenticado").toString());
             else
-                return ResponseEntity.badRequest().body(ResponsesBody.SENHA_INVALIDA);
+                return ResponseEntity.badRequest().body(com.toth.validations.ResponsesBody.SENHA_INVALIDA);
         else
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponsesBody.ESCOLA_NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(com.toth.validations.ResponsesBody.ESCOLA_NOT_FOUND);
 
     }
 
@@ -41,12 +40,12 @@ public class EscolaAutenticacaoResource {
     public ResponseEntity<?> escolaCadastro(@RequestBody @Valid Escola escola, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors())
-            return ResponseEntity.badRequest().body(ValidacoesFormat.formatarErros(bindingResult));
+            return ResponseEntity.badRequest().body(com.toth.validations.ValidacoesFormat.formatarErros(bindingResult));
 
         if(escolaRepository.existsByLogin(escola.getLogin()))
-            return ResponseEntity.badRequest().body(ResponsesBody.LOGIN_CADASTRADO);
+            return ResponseEntity.badRequest().body(com.toth.validations.ResponsesBody.LOGIN_CADASTRADO);
         else if(escolaRepository.existsByCnpj(escola.getCnpj()))
-            return ResponseEntity.badRequest().body(ResponsesBody.CNPJ_CADASTRADO);
+            return ResponseEntity.badRequest().body(com.toth.validations.ResponsesBody.CNPJ_CADASTRADO);
         else
             return ResponseEntity.ok().body(escolaRepository.save(escola));
     }
