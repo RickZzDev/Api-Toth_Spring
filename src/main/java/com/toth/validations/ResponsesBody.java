@@ -1,4 +1,4 @@
-package com.toth.resource;
+package com.toth.validations;
 
 import org.json.JSONObject;
 
@@ -12,6 +12,8 @@ public class ResponsesBody {
     public final static String LOGIN_CADASTRADO = jsonResponse(6);
     public final static String CNPJ_CADASTRADO = jsonResponse(7);
     public final static String RG_CADASTRADO = jsonResponse(8);
+    public final static String CNPJ_INVALIDO = jsonResponse(9);
+    public final static String CNPJ_VALIDO = jsonResponse(10);
 
 
     private static String jsonResponse(int i) {
@@ -32,6 +34,10 @@ public class ResponsesBody {
                 return new JSONObject().put("mensagem", "CNPJ já cadastrado").toString();
             case 8:
                 return new JSONObject().put("mensagem", "RG já cadastrado").toString();
+            case 9:
+                return new JSONObject().put("status", "CNPJ inválido!").toString();
+            case 10:
+                return new JSONObject().put("status", "CNPJ válido!").toString();
             default:
                 throw new IllegalArgumentException();
         }

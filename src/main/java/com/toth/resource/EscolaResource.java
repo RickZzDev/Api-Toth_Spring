@@ -1,8 +1,10 @@
 package com.toth.resource;
 
+import com.toth.model.dto.EscolaCNPJDTO;
 import com.toth.model.Escola;
 import com.toth.repository.EscolaRepository;
-import org.json.JSONObject;
+import com.toth.validations.ResponsesBody;
+import com.toth.validations.ValidacoesFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,6 +52,19 @@ public class EscolaResource {
             return ResponseEntity.noContent().build();
         } else
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponsesBody.ESCOLA_NOT_FOUND);
+    }
+
+    @PostMapping("/cnpj")
+    public ResponseEntity<?> validationCnpj(@Valid @RequestBody EscolaCNPJDTO escolaCnpj, BindingResult bindingResult) {
+
+        if(bindingResult.hasErrors())
+            return ResponseEntity.badRequest().body(ResponsesBody.CNPJ_INVALIDO);
+
+        if(escolaRepository.existsByCnpj(escolaCnpj.getCnpj()))
+            return ResponseEntity.badRequest().body(ResponsesBody.CNPJ_CADASTRADO);
+
+        return ResponseEntity.ok().body(ResponsesBody.CNPJ_VALIDO);
+
     }
 
 }
