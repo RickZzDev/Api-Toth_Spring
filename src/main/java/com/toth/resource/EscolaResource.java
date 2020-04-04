@@ -54,6 +54,8 @@ public class EscolaResource {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponsesBody.ESCOLA_NOT_FOUND);
     }
 
+
+    @CrossOrigin
     @PostMapping("/cnpj")
     public ResponseEntity<?> validationCnpj(@Valid @RequestBody EscolaCNPJDTO escolaCnpj, BindingResult bindingResult) {
 
