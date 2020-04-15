@@ -18,7 +18,7 @@ public class Escola {
 
     @Email(message = "O email deve ser válido!")
     @NotEmpty(message = "O email é obrigatório!")
-    @Size(min = 15, max = 255, message = "O email deve conter entre 15 e 255 caracteres")
+    @Size(min = 5, max = 255, message = "O email deve conter entre 5 e 255 caracteres")
     private String email;
 
     @NotEmpty(message = "O nome é obrigatório!")
@@ -31,7 +31,7 @@ public class Escola {
     private String login;
 
     @NotEmpty(message = "A senha é obrigatória!")
-    @Size(min = 5, max = 255, message = "A senha deve conter entre 15 e 255 caracteres")
+    @Size(min = 5, max = 255, message = "A senha deve conter entre 5 e 255 caracteres")
     private String senha;
 
     @NotEmpty(message = "O cnpj é obrigatório!")
