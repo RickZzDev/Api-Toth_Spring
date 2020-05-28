@@ -46,6 +46,10 @@ public class Professor {
     @JoinColumn(name = "id")
     private Endereco endereco;
 
+    @ManyToMany
+    @JoinTable(name = "materia",joinColumns = @JoinColumn(name = "professor_codigo", referencedColumnName = "id"),
+    inverseJoinColumns = @JoinColumn(name = "materia_codigo", referencedColumnName = "id"))
+    private List<Materia> materias;
 
     public Long getId() {
         return id;
@@ -95,15 +99,33 @@ public class Professor {
         this.endereco = endereco;
     }
 
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public List<Materia> getMaterias() {
+        return materias;
+    }
+
+    public void setMaterias(List<Materia> materias) {
+        this.materias = materias;
+    }
+
     @Override
     public String toString() {
         return "Professor{" +
                 "id=" + id +
-                ", rg=" + rg +
+                ", rg='" + rg + '\'' +
+                ", cpf='" + cpf + '\'' +
                 ", nome='" + nome + '\'' +
                 ", login='" + login + '\'' +
                 ", senha='" + senha + '\'' +
                 ", endereco=" + endereco +
+                ", materias=" + materias +
                 '}';
     }
 }
