@@ -43,7 +43,7 @@ public class Professor {
     private String senha;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "id_endereco")
     private Endereco endereco;
 
     @ManyToMany

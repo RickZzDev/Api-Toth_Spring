@@ -13,7 +13,7 @@ public class Materia {
     private String nome;
 
     @ManyToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "id_ano")
     private Ano ano;
 
     public Long getId() {

@@ -14,7 +14,7 @@ public class Turma {
     private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "id_ano")
     private Ano ano;
 
     @NotNull

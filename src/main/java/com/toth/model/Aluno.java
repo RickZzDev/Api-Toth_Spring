@@ -11,20 +11,20 @@ public class Aluno {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_responsavel")
     private Responsavel responsavel;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "id_contato")
     private Contato contato;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "id_acesso")
     private Acesso acesso;
 
     @ManyToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn(name="id")
+    @JoinColumn(name="id_turma")
     private Turma turma;
 
     public Long getId() {

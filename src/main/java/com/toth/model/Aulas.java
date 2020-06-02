@@ -19,11 +19,11 @@ public class Aulas {
     private String dia;
 
     @OneToOne
-    @JoinColumn(name="id")
+    @JoinColumn(name="id_materia")
     private Materia materia;
 
     @ManyToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "id_professor")
     private Professor professor;
 
     public Long getId() {
