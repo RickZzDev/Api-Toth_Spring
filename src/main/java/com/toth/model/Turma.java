@@ -1,5 +1,6 @@
 package com.toth.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
@@ -9,12 +10,15 @@ import javax.validation.constraints.NotEmpty;
 @Table(name = "turma")
 public class Turma {
 
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_ano")
+    @JoinColumn(name = "id_ano", referencedColumnName = "id")
+    @JsonIgnore
     private Ano ano;
 
     @NotNull

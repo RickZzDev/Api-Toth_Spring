@@ -9,7 +9,7 @@ public class Ano {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long ano;
+    private Integer ano;
 
     public Long getId() {
         return id;
@@ -19,11 +19,11 @@ public class Ano {
         this.id = id;
     }
 
-    public Long getAno() {
+    public Integer getAno() {
         return ano;
     }
 
-    public void setAno(Long ano) {
+    public void setAno(Integer ano) {
         this.ano = ano;
     }
 

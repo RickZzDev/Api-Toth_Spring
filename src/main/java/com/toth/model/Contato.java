@@ -14,7 +14,7 @@ public class Contato {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Email(message = "O email deve ser válido!")
+//    @Email(message = "O email deve ser válido!")
     @NotEmpty(message = "O email é obrigatório!")
     @Size(min = 5, max = 255, message = "O email deve conter entre 5 e 255 caracteres")
     private String email;

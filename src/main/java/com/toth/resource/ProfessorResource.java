@@ -42,9 +42,14 @@ public class ProfessorResource {
     }
 
     @PutMapping("/professores")
-
     public void atualizar(@RequestBody Professor professor ){
         professorRepository.save(professor);
+    }
+
+    @PostMapping("")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<?> professorCadastro(@RequestBody @Valid Professor professor){
+        return ResponseEntity.ok().body(professorRepository.save(professor));
     }
 
 }
