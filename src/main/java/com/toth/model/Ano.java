@@ -1,23 +1,27 @@
 package com.toth.model;
 
+import org.hibernate.annotations.SQLUpdate;
+import org.hibernate.annotations.Synchronize;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "ano")
 public class Ano {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_ano")
-    private Long id_ano;
+    private Long id;
 
     private Integer ano;
 
-    public Long getId_ano() {
-        return id_ano;
+    public Long getId() {
+        return id;
     }
 
-    public void setId_ano(Long id_ano) {
-        this.id_ano = id_ano;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Integer getAno() {
@@ -32,7 +36,7 @@ public class Ano {
     @Override
     public String toString() {
         return "Ano{" +
-                "id=" + id_ano +
+                "id=" + id +
                 ", ano=" + ano +
                 '}';
     }

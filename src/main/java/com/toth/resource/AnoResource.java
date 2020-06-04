@@ -36,4 +36,13 @@ public class AnoResource {
         return ResponseEntity.ok().body(anoRepository.save(ano));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteAno(@PathVariable Long id) {
+        if(anoRepository.existsById(id)){
+            anoRepository.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseEntity.notFound());
+    }
+
 }

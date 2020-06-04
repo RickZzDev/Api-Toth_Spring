@@ -17,6 +17,8 @@ public class Turma {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
+
     @ManyToOne
     @JoinColumn(name = "id_ano")
     private Ano ano;
