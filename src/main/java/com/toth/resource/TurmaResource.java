@@ -2,6 +2,7 @@ package com.toth.resource;
 
 import com.toth.model.Turma;
 import com.toth.repository.TurmaRepository;
+import com.toth.validations.ResponsesBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,4 +37,12 @@ public class TurmaResource {
         return ResponseEntity.ok().body(turmaRepository.save(turma));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteTurma(@PathVariable Long id) {
+        if(turmaRepository.existsById(id)){
+            turmaRepository.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseEntity.notFound());
+    }
 }

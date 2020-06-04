@@ -7,16 +7,17 @@ import javax.persistence.*;
 public class Ano {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id_ano")
+    private Long id_ano;
 
     private Integer ano;
 
-    public Long getId() {
-        return id;
+    public Long getId_ano() {
+        return id_ano;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId_ano(Long id_ano) {
+        this.id_ano = id_ano;
     }
 
     public Integer getAno() {
@@ -31,7 +32,7 @@ public class Ano {
     @Override
     public String toString() {
         return "Ano{" +
-                "id=" + id +
+                "id=" + id_ano +
                 ", ano=" + ano +
                 '}';
     }

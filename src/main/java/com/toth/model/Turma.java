@@ -2,6 +2,7 @@ package com.toth.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
+import net.bytebuddy.implementation.bind.annotation.Default;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -16,9 +17,8 @@ public class Turma {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_ano", referencedColumnName = "id")
-    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "id_ano")
     private Ano ano;
 
     @NotNull
