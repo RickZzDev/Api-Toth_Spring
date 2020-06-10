@@ -17,6 +17,7 @@ public class Professor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_professor")
     private Long id;
 
 
@@ -47,8 +48,8 @@ public class Professor {
     private Endereco endereco;
 
     @ManyToMany
-    @JoinTable(name = "materia",joinColumns = @JoinColumn(name = "professor_codigo", referencedColumnName = "id"),
-    inverseJoinColumns = @JoinColumn(name = "materia_codigo", referencedColumnName = "id"))
+    @JoinTable(name = "materia",joinColumns = @JoinColumn(name = "id_professor", referencedColumnName = "id_professor"),
+    inverseJoinColumns = @JoinColumn(name = "id_materia", referencedColumnName = "id_materia"))
     private List<Materia> materias;
 
     public Long getId() {

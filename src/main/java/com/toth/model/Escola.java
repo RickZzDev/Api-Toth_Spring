@@ -14,6 +14,7 @@ public class Escola {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_escola")
     private Long id;
 
     @Email(message = "O email deve ser válido!")

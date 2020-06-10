@@ -12,6 +12,7 @@ public class Responsavel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_responsavel")
     private Long id;
 
     @NotEmpty(message = "Favor preencher o nome do responsavel")
@@ -20,11 +21,11 @@ public class Responsavel {
     private String nome;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "id_contato")
     private Contato contato;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="id")
+    @JoinColumn(name="id_acesso")
     private Acesso acesso;
 
     public Long getId() {

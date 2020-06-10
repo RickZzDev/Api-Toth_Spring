@@ -8,6 +8,7 @@ public class Materia {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_materia")
     private Long id;
 
     private String nome;

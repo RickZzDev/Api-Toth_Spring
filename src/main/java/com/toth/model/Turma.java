@@ -15,6 +15,7 @@ public class Turma {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_turma")
     private Long id;
 
 

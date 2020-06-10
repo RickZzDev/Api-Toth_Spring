@@ -12,6 +12,7 @@ public class Acesso {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_acesso")
     private Long id;
 
     @Email(message = "Email deve ser válido")

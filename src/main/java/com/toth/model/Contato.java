@@ -12,6 +12,7 @@ public class Contato {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_contato")
     private Long id;
 
 //    @Email(message = "O email deve ser válido!")

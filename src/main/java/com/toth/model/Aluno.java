@@ -9,6 +9,7 @@ public class Aluno {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_aluno")
     private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)

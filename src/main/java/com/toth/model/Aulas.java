@@ -10,6 +10,7 @@ public class Aulas {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_aula")
     private Long id;
 
     private Time hora_inicio;
