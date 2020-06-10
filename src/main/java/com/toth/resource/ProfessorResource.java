@@ -41,7 +41,7 @@ public class ProfessorResource {
         professorRepository.deleteById(id);
     }
 
-    @PutMapping("/professores")
+    @PutMapping("/{id}")
     public void atualizar(@RequestBody Professor professor ){
         professorRepository.save(professor);
     }

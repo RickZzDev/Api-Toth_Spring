@@ -27,7 +27,7 @@ public class ProfessorAutenticacao {
         Optional<Professor> professorProcurado = professorRepository.findByLogin(professor.getLogin());
         if(professorProcurado.isPresent())
             if(professorProcurado.get().getSenha().equals(professor.getSenha()))
-                return ResponseEntity.ok().body(new JSONObject().put("status", "autenticado").toString());
+                return ResponseEntity.ok().body(professorProcurado);
             else
                 return ResponseEntity.badRequest().body(ResponsesBody.SENHA_INVALIDA);
         else
