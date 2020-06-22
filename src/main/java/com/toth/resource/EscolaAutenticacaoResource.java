@@ -22,6 +22,7 @@ public class EscolaAutenticacaoResource {
     private EscolaRepository escolaRepository;
 
     @PostMapping("/autenticacao")
+
     public ResponseEntity<?> escolaLogin(@RequestBody Escola escola) {
         Optional<Escola> escolaProcurada = escolaRepository.findByLogin(escola.getLogin());
 
