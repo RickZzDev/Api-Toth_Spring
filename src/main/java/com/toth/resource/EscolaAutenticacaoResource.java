@@ -1,12 +1,22 @@
 package com.toth.resource;
 
+import com.toth.model.AutenticationRequest;
+import com.toth.model.AuthenticationResponse;
 import com.toth.model.Escola;
+import com.toth.model.EscolaDetails;
 import com.toth.repository.EscolaRepository;
 
+import com.toth.service.EscolaDetailsService;
+import com.toth.util.JwtUtil;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,18 +31,32 @@ public class EscolaAutenticacaoResource {
     @Autowired
     private EscolaRepository escolaRepository;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired(required = true)
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private EscolaDetailsService escolaDetailsService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
     @PostMapping("/autenticacao")
 
-    public ResponseEntity<?> escolaLogin(@RequestBody Escola escola) {
-        Optional<Escola> escolaProcurada = escolaRepository.findByLogin(escola.getLogin());
+    public ResponseEntity<?> escolaLogin(@RequestBody AutenticationRequest escolaRequest) throws Exception{
+        try {
+        } catch (BadCredentialsException e) {
+            throw new BadCredentialsException("Login ou senha incorretos");
+        }
 
-        if (escolaProcurada.isPresent())
-            if(escolaProcurada.get().getSenha().equals(escola.getSenha()))
-                return ResponseEntity.ok().body(new JSONObject().put("status", "autenticado").toString());
-            else
-                return ResponseEntity.badRequest().body(com.toth.validations.ResponsesBody.SENHA_INVALIDA);
-        else
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(com.toth.validations.ResponsesBody.ESCOLA_NOT_FOUND);
+        Escola escola = escolaRepository.findByLogin(escolaRequest.getLogin()).get();
+        final UserDetails userDetails = escolaDetailsService.loadUserByUsername(escola.getLogin());
+
+        final String jwt = jwtUtil.generateToken(userDetails);
+
+        return ResponseEntity.ok().body(new AuthenticationResponse(escola, jwt));
 
     }
 
@@ -47,8 +71,11 @@ public class EscolaAutenticacaoResource {
             return ResponseEntity.badRequest().body(com.toth.validations.ResponsesBody.LOGIN_CADASTRADO);
         else if(escolaRepository.existsByCnpj(escola.getCnpj()))
             return ResponseEntity.badRequest().body(com.toth.validations.ResponsesBody.CNPJ_CADASTRADO);
-        else
+        else{
+            String senhaEncrypt = passwordEncoder.encode(escola.getSenha());
+            escola.setSenha(senhaEncrypt);
             return ResponseEntity.ok().body(escolaRepository.save(escola));
+        }
     }
 
 }
