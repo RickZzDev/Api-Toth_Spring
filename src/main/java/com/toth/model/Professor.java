@@ -20,8 +20,6 @@ public class Professor {
     @Column(name = "id_professor")
     private Long id;
 
-
-
     @NotEmpty(message = "Campo rg obrigatorio")
     @Size(min= 9, max = 9, message = "Quantidade de caracteres incorreta")
     @Column(unique = true)
@@ -46,11 +44,6 @@ public class Professor {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_endereco")
     private Endereco endereco;
-
-    @ManyToMany
-    @JoinTable(name = "materia",joinColumns = @JoinColumn(name = "id_professor", referencedColumnName = "id_professor"),
-    inverseJoinColumns = @JoinColumn(name = "id_materia", referencedColumnName = "id_materia"))
-    private List<Materia> materias;
 
     public Long getId() {
         return id;
@@ -108,14 +101,6 @@ public class Professor {
         this.cpf = cpf;
     }
 
-    public List<Materia> getMaterias() {
-        return materias;
-    }
-
-    public void setMaterias(List<Materia> materias) {
-        this.materias = materias;
-    }
-
     @Override
     public String toString() {
         return "Professor{" +
@@ -126,7 +111,6 @@ public class Professor {
                 ", login='" + login + '\'' +
                 ", senha='" + senha + '\'' +
                 ", endereco=" + endereco +
-                ", materias=" + materias +
                 '}';
     }
 }

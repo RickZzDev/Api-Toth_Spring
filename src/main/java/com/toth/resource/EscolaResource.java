@@ -1,7 +1,9 @@
 package com.toth.resource;
 
+import com.toth.model.Materia;
 import com.toth.model.dto.EscolaCNPJDTO;
 import com.toth.model.Escola;
+import com.toth.model.dto.EscolaDTO;
 import com.toth.repository.EscolaRepository;
 import com.toth.validations.ResponsesBody;
 import com.toth.validations.ValidacoesFormat;
@@ -66,6 +68,26 @@ public class EscolaResource {
             return ResponseEntity.badRequest().body(ResponsesBody.CNPJ_CADASTRADO);
 
         return ResponseEntity.ok().body(ResponsesBody.CNPJ_VALIDO);
+
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<?> atualizarEscola(@PathVariable Long id, @Valid @RequestBody EscolaDTO escolaDTO, BindingResult bindingResult) {
+
+        System.out.println(escolaDTO);
+
+        if(bindingResult.hasErrors())
+            return ResponseEntity.badRequest().body(ValidacoesFormat.formatarErros(bindingResult));
+
+        Optional<Escola> escolaOp = escolaRepository.findById(id);
+
+        if(!escolaOp.isPresent())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponsesBody.ESCOLA_NOT_FOUND);
+
+        Escola escolaAtualizada = escolaDTO.toEscola(escolaOp.get());
+        System.out.println(escolaAtualizada);
+
+        return ResponseEntity.ok(escolaRepository.save(escolaAtualizada));
 
     }
 

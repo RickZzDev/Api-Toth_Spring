@@ -29,9 +29,10 @@ public class MateriaResource {
         return materiaProcurada.isPresent() ? ResponseEntity.ok().body(materiaProcurada) : ResponseEntity.notFound().build();
     }
 
-    @PostMapping("")
+    @PostMapping("/cadastro")
     @ResponseStatus(HttpStatus.CREATED)
-    private ResponseEntity<?> materiaCadastro(@RequestBody @Valid Materia materia){
+    private ResponseEntity<?> materiaCadastro(@RequestBody Materia materia){
+        System.out.println(materia);
         return ResponseEntity.ok().body(materiaRepository.save(materia));
     }
 }

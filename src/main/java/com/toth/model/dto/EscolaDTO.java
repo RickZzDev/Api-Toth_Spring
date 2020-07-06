@@ -1,23 +1,23 @@
-package com.toth.model;
+package com.toth.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.toth.enums.TypeEscola;
-import org.hibernate.validator.constraints.UniqueElements;
+import com.toth.model.Endereco;
+import com.toth.model.Escola;
+import com.toth.model.Materia;
 import org.hibernate.validator.constraints.br.CNPJ;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-import javax.websocket.OnError;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.List;
 
-@Entity
-@Table(name = "escola")
-public class Escola {
+public class EscolaDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_escola")
+    @JsonIgnore
     private Long id;
 
     @Email(message = "O email deve ser válido!")
@@ -29,19 +29,14 @@ public class Escola {
     @Size(min = 3, max = 255, message = "O nome deve conter entre 8 e 255 caracteres")
     private String nome;
 
-    @NotEmpty
-    @Size(min = 3, max = 255, message = "O Login deve ter no mínimo 3 caracteres e no máximo 255.")
-    @Column(unique = true)
+    @JsonIgnore
     private String login;
 
     @NotEmpty(message = "A senha é obrigatória!")
     @Size(min = 5, max = 255, message = "A senha deve conter entre 5 e 255 caracteres")
     private String senha;
 
-    @NotEmpty(message = "O cnpj é obrigatório!")
-    @Size(min = 3, max = 255, message = "O cnpj deve conter entre 3 e 255 caracteres")
-    @Column(unique = true)
-    @CNPJ
+    @JsonIgnore
     private String cnpj;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -56,6 +51,7 @@ public class Escola {
     )
     private List<Materia> materias;
 
+    @JsonIgnore
     private Boolean pagamentoStatus;
 
     @Enumerated()
@@ -136,17 +132,29 @@ public class Escola {
         this.typeEscola = typeEscola;
     }
 
+    public Escola toEscola(Escola escola) {
+        escola.setEmail(this.email);
+        escola.setNome(this.nome);
+        escola.setEndereco(this.endereco);
+        escola.setMaterias(this.materias);
+        escola.setTypeEscola(this.typeEscola);
+
+        return escola;
+    }
+
     @Override
     public String toString() {
-        return "Escola{" +
+        return "EscolaDTO{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", nome='" + nome + '\'' +
                 ", login='" + login + '\'' +
                 ", senha='" + senha + '\'' +
                 ", cnpj='" + cnpj + '\'' +
-                ", endereco='" + endereco + '\'' +
+                ", endereco=" + endereco +
+                ", materias=" + materias +
                 ", pagamentoStatus=" + pagamentoStatus +
+                ", typeEscola=" + typeEscola +
                 '}';
     }
 }

@@ -14,6 +14,8 @@ public class ResponsesBody {
     public final static String RG_CADASTRADO = jsonResponse(8);
     public final static String CNPJ_INVALIDO = jsonResponse(9);
     public final static String CNPJ_VALIDO = jsonResponse(10);
+    public final static String CADASTRO_MATERIA_ERRO = jsonResponse(11);
+    public final static String BAD_LOGIN = jsonResponse(12);
 
 
     private static String jsonResponse(int i) {
@@ -35,9 +37,13 @@ public class ResponsesBody {
             case 8:
                 return new JSONObject().put("mensagem", "RG já cadastrado").toString();
             case 9:
-                return new JSONObject().put("status", "CNPJ inválido!").toString();
+                return new JSONObject().put("mensagem", "CNPJ inválido!").toString();
             case 10:
-                return new JSONObject().put("status", "CNPJ válido!").toString();
+                return new JSONObject().put("mensagem", "CNPJ válido!").toString();
+            case 11:
+                return new JSONObject().put("mensagem", "Erro ao cadastrar matérias!").toString();
+            case 12:
+                return new JSONObject().put("mensagem", "Login ou senha incorretos!").toString();
             default:
                 throw new IllegalArgumentException();
         }

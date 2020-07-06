@@ -8,6 +8,7 @@ import com.toth.repository.EscolaRepository;
 
 import com.toth.service.EscolaDetailsService;
 import com.toth.util.JwtUtil;
+import com.toth.validations.ResponsesBody;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,8 +48,9 @@ public class EscolaAutenticacaoResource {
 
     public ResponseEntity<?> escolaLogin(@RequestBody AutenticationRequest escolaRequest) throws Exception{
         try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(escolaRequest.getLogin(), escolaRequest.getSenha()));
         } catch (BadCredentialsException e) {
-            throw new BadCredentialsException("Login ou senha incorretos");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponsesBody.BAD_LOGIN);
         }
 
         Escola escola = escolaRepository.findByLogin(escolaRequest.getLogin()).get();
