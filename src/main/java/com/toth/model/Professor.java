@@ -1,6 +1,5 @@
 package com.toth.model;
 
-
 import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
@@ -21,13 +20,11 @@ public class Professor {
     private Long id;
 
     @NotEmpty(message = "Campo rg obrigatorio")
-    @Size(min= 9, max = 9, message = "Quantidade de caracteres incorreta")
+    @Size(min = 9, max = 9, message = "Quantidade de caracteres incorreta")
     @Column(unique = true)
     private String rg;
 
-
     private String cpf;
-
 
     @Size(min = 3, message = "O nome deve possuir mais de 3 caracteres")
     @NotNull(message = "não pode ser null")
@@ -44,6 +41,20 @@ public class Professor {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_endereco")
     private Endereco endereco;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(joinColumns = @JoinColumn(name = "id_professor"), inverseJoinColumns = @JoinColumn(name = "id_turma"))
+    @NotNull
+    @NotEmpty
+    private List<Turma> turmas;
+
+    public List<Turma> getTurmas() {
+        return turmas;
+    }
+
+    public void setTurmas(List<Turma> turma) {
+        this.turmas = turma;
+    }
 
     public Long getId() {
         return id;
@@ -103,14 +114,8 @@ public class Professor {
 
     @Override
     public String toString() {
-        return "Professor{" +
-                "id=" + id +
-                ", rg='" + rg + '\'' +
-                ", cpf='" + cpf + '\'' +
-                ", nome='" + nome + '\'' +
-                ", login='" + login + '\'' +
-                ", senha='" + senha + '\'' +
-                ", endereco=" + endereco +
-                '}';
+        return "Professor{" + "id=" + id + "turmas=" + turmas + ", rg='" + rg + '\'' + ", cpf='" + cpf + '\''
+                + ", nome='" + nome + '\'' + ", login='" + login + '\'' + ", senha='" + senha + '\'' + ", endereco="
+                + endereco + '}';
     }
 }

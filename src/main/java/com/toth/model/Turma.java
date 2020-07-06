@@ -28,6 +28,16 @@ public class Turma {
     @NotEmpty
     private String identificador;
 
+    @NotNull
+    @NotEmpty
+    private String turno;
+
+
+
+    public String getTurno(){return turno;}
+
+    public void setTurno(String turno){this.turno = turno;}
+
     public Long getId() {
         return id;
     }
@@ -52,11 +62,14 @@ public class Turma {
         this.identificador = identificador;
     }
 
+
+
     @Override
     public String toString() {
         return "Turma{" +
                 "id=" + id +
                 ", ano=" + ano +
+                ", turno=" + turno +
                 ", identificador='" + identificador + '\'' +
                 '}';
     }

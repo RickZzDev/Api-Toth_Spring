@@ -1,7 +1,6 @@
 package com.toth.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -15,14 +14,14 @@ public class Contato {
     @Column(name = "id_contato")
     private Long id;
 
-//    @Email(message = "O email deve ser válido!")
+    // @Email(message = "O email deve ser válido!")
     @NotEmpty(message = "O email é obrigatório!")
     @Size(min = 5, max = 255, message = "O email deve conter entre 5 e 255 caracteres")
     private String email;
 
     @NotNull(message = "O celular é obrigatório!")
     @NotEmpty(message = "O celular é obrigatório!")
-    @Size(min =9, max=15, message = "O celular deve ter entre 9 e 15 caracteres")
+    @Size(min = 9, max = 15, message = "O celular deve ter entre 9 e 15 caracteres")
     private String celular;
 
     private String telefone;
@@ -61,11 +60,7 @@ public class Contato {
 
     @Override
     public String toString() {
-        return "Contato{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", celular='" + celular + '\'' +
-                ", telefone='" + telefone + '\'' +
-                '}';
+        return "Contato{" + "id=" + id + ", email='" + email + '\'' + ", celular='" + celular + '\'' + ", telefone='"
+                + telefone + '\'' + '}';
     }
 }
