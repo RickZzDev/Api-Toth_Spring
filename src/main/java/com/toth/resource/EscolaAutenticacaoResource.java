@@ -9,6 +9,8 @@ import com.toth.repository.EscolaRepository;
 import com.toth.service.EscolaDetailsService;
 import com.toth.util.JwtUtil;
 import com.toth.validations.ResponsesBody;
+import com.toth.validations.ValidacoesFormat;
+
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -67,12 +69,12 @@ public class EscolaAutenticacaoResource {
     public ResponseEntity<?> escolaCadastro(@RequestBody @Valid Escola escola, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors())
-            return ResponseEntity.badRequest().body(com.toth.validations.ValidacoesFormat.formatarErros(bindingResult));
+            return ResponseEntity.badRequest().body(ValidacoesFormat.formatarErros(bindingResult));
 
         if(escolaRepository.existsByLogin(escola.getLogin()))
-            return ResponseEntity.badRequest().body(com.toth.validations.ResponsesBody.LOGIN_CADASTRADO);
+            return ResponseEntity.badRequest().body(ResponsesBody.LOGIN_CADASTRADO);
         else if(escolaRepository.existsByCnpj(escola.getCnpj()))
-            return ResponseEntity.badRequest().body(com.toth.validations.ResponsesBody.CNPJ_CADASTRADO);
+            return ResponseEntity.badRequest().body(ResponsesBody.CNPJ_CADASTRADO);
         else{
             String senhaEncrypt = passwordEncoder.encode(escola.getSenha());
             escola.setSenha(senhaEncrypt);

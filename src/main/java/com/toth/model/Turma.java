@@ -11,14 +11,10 @@ import javax.validation.constraints.NotEmpty;
 @Table(name = "turma")
 public class Turma {
 
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_turma")
     private Long id;
-
-
 
     @ManyToOne
     @JoinColumn(name = "id_ano")
@@ -32,45 +28,36 @@ public class Turma {
     @NotEmpty
     private String turno;
 
+	public Long getId() {
+		return id;
+	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getTurno(){return turno;}
+	public Ano getAno() {
+		return ano;
+	}
 
-    public void setTurno(String turno){this.turno = turno;}
+	public void setAno(Ano ano) {
+		this.ano = ano;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public String getIdentificador() {
+		return identificador;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setIdentificador(String identificador) {
+		this.identificador = identificador;
+	}
 
-    public Ano getAno() {
-        return ano;
-    }
+	public String getTurno() {
+		return turno;
+	}
 
-    public void setAno(Ano ano) {
-        this.ano = ano;
-    }
-
-    public String getIdentificador() {
-        return identificador;
-    }
-
-    public void setIdentificador(String identificador) {
-        this.identificador = identificador;
-    }
-
-
-
-    @Override
-    public String toString() {
-        return "Turma{" +
-                "id=" + id +
-                ", ano=" + ano +
-                ", turno=" + turno +
-                ", identificador='" + identificador + '\'' +
-                '}';
-    }
+	public void setTurno(String turno) {
+		this.turno = turno;
+	}
+    
 }

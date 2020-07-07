@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -31,6 +32,8 @@ public class Atividades {
 
     @NotNull
     @NotEmpty
+    @ManyToOne
+    @JoinColumn(name = "id_materia")
     private Materia materia;
 
     @NotNull
@@ -43,14 +46,20 @@ public class Atividades {
 
     private Boolean todosAlunos;
 
-    private Turma turma;
+    @ManyToMany
+    @JoinTable(
+            name = "atividades_turma",
+            joinColumns = @JoinColumn(name = "id_atividade"),
+            inverseJoinColumns = @JoinColumn(name = "id_turma")
+    )
+    private List<Turma> turmas;
 
-    public Turma getTurma() {
-        return turma;
+    public List<Turma> getTurma() {
+        return turmas;
     }
 
-    public void setTurma(Turma turma) {
-        this.turma = turma;
+    public void setTurma(List<Turma> turma) {
+        this.turmas = turmas;
     }
 
     public Materia getMateria() {
@@ -85,11 +94,10 @@ public class Atividades {
         this.todosAlunos = todosAlunos;
     }
 
-    @Override
-    public String toString() {
-        return "Turma{" + "id=" + id + ", nome='" + nome + '\'' + ", materia='" + materia + '\'' + ", tipo='" + tipo
-                + '\'' + ", alunos='" + alunos + '\'' + ", is_todos_alunos='" + todosAlunos + '\'' + ", turma='" + turma
-                + '\'' + '}';
-    }
+	@Override
+	public String toString() {
+		return "Atividades [id=" + id + ", nome=" + nome + ", materia=" + materia + ", tipo=" + tipo + ", alunos="
+				+ alunos + ", todosAlunos=" + todosAlunos + ", turmas=" + turmas + "]";
+	}
 
 }

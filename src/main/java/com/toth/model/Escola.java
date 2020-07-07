@@ -58,7 +58,7 @@ public class Escola {
 
     private Boolean pagamentoStatus;
 
-    @Enumerated()
+    @Enumerated(value = EnumType.STRING)
     @JsonProperty("tipo_escola")
     private TypeEscola typeEscola;
 
@@ -128,8 +128,8 @@ public class Escola {
         this.materias = materias;
     }
 
-    public TypeEscola getTypeEscola() {
-        return typeEscola;
+    public String getTypeEscola() {
+        return typeEscola == null ? null : typeEscola.getDescricao();
     }
 
     public void setTypeEscola(TypeEscola typeEscola) {
