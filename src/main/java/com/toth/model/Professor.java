@@ -42,8 +42,8 @@ public class Professor {
     @JoinColumn(name = "id_endereco")
     private Endereco endereco;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(joinColumns = @JoinColumn(name = "id_professor"), inverseJoinColumns = @JoinColumn(name = "id_turma"))
+    @ManyToMany(cascade = CascadeType.DETACH)
+    @JoinTable(name = "professor_turma", joinColumns = @JoinColumn(name = "id_professor"), inverseJoinColumns = @JoinColumn(name = "id_turma"))
     @NotNull
     @NotEmpty
     private List<Turma> turmas;

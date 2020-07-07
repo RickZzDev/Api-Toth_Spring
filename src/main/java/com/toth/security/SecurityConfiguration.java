@@ -3,6 +3,8 @@ package com.toth.security;
 import com.toth.filters.CorsFilter;
 import com.toth.filters.JwtRequestFilter;
 import com.toth.service.EscolaDetailsService;
+import com.toth.service.ProfessorDetailService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +29,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     EscolaDetailsService escolaDetailsService;
 
     @Autowired
+    ProfessorDetailService professorDetailsService;
+
+    @Autowired
     JwtRequestFilter jwtRequestFilter;
 
     @Autowired
@@ -35,6 +40,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(escolaDetailsService);
+        auth.userDetailsService(professorDetailsService);
     }
 
     @Override
@@ -43,16 +49,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
         http.csrf().disable();
 
-        http.authorizeRequests()
-                .antMatchers("/escolas/cadastro").permitAll()   
-                .antMatchers("/escolas/autenticacao").permitAll()
-                .antMatchers("/escolas/cnpj").permitAll()
-                .anyRequest().authenticated()
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        
+        http.authorizeRequests().antMatchers("/escolas/cadastro").permitAll().antMatchers("/escolas/autenticacao")
+                .permitAll().antMatchers("/professores/autenticacao").permitAll().antMatchers("/escolas/cnpj")
+                .permitAll().anyRequest().authenticated().and().sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
         http.addFilterBefore(corsFilter, SessionManagementFilter.class);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-        
+
     }
 
     @Override
