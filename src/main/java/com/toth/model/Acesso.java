@@ -1,6 +1,5 @@
 package com.toth.model;
 
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -18,7 +17,7 @@ public class Acesso {
     @Email(message = "Email deve ser válido")
     @NotEmpty(message = "Email é obrigatorio")
     @Size(min = 5, max = 255, message = "O email deve conter entre 5 e 50 caracteres")
-    private String email;
+    private String login;
 
     @NotEmpty(message = "A senha é obrigatória!")
     @Size(min = 5, max = 255, message = "A senha deve conter entre 5 e 255 caracteres")
@@ -32,12 +31,12 @@ public class Acesso {
         this.id = id;
     }
 
-    public String getEmail() {
-        return email;
+    public String getLogin() {
+        return login;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getSenha() {
@@ -50,12 +49,7 @@ public class Acesso {
 
     @Override
     public String toString() {
-        return "Acesso{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", senha='" + senha + '\'' +
-                '}';
+        return "Acesso{" + "id=" + id + ", email='" + login + '\'' + ", senha='" + senha + '\'' + '}';
     }
-
 
 }

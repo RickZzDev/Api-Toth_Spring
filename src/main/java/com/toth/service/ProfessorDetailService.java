@@ -1,7 +1,6 @@
 package com.toth.service;
 
 import com.toth.model.Escola;
-import com.toth.model.EscolaDetails;
 import com.toth.model.Professor;
 import com.toth.model.ProfessorDetail;
 import com.toth.repository.EscolaRepository;

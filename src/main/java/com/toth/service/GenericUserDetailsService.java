@@ -1,7 +1,9 @@
 package com.toth.service;
 
+import com.toth.model.Acesso;
 import com.toth.model.Escola;
-import com.toth.model.EscolaDetails;
+import com.toth.model.GenericUserDetails;
+import com.toth.repository.AcessoRepository;
 import com.toth.repository.EscolaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,20 +16,20 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class EscolaDetailsService implements UserDetailsService {
+public class GenericUserDetailsService implements UserDetailsService {
 
     @Autowired
-    EscolaRepository escolaRepository;
+    AcessoRepository acessoRepository;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Optional<Escola> escola = escolaRepository.findByLogin(s);
+        Optional<Acesso> acesso = acessoRepository.findByLogin(s);
 
-        escola.orElseThrow(() -> new UsernameNotFoundException("Escola não encontrada: " + s));
+        acesso.orElseThrow(() -> new UsernameNotFoundException("User não encontrada: " + s));
 
         List<String> lista = new ArrayList<>();
 
-        return escola.map(EscolaDetails::new).get();
+        return acesso.map(GenericUserDetails::new).get();
     }
 
 }

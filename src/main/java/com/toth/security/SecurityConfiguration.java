@@ -2,7 +2,8 @@ package com.toth.security;
 
 import com.toth.filters.CorsFilter;
 import com.toth.filters.JwtRequestFilter;
-import com.toth.service.EscolaDetailsService;
+import com.toth.model.GenericUserDetails;
+import com.toth.service.GenericUserDetailsService;
 import com.toth.service.ProfessorDetailService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ import org.springframework.web.cors.CorsConfiguration;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    EscolaDetailsService escolaDetailsService;
+    GenericUserDetailsService genericUserDetailsService;
 
     @Autowired
     ProfessorDetailService professorDetailsService;
@@ -39,7 +40,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(escolaDetailsService);
+        auth.userDetailsService(genericUserDetailsService);
         auth.userDetailsService(professorDetailsService);
     }
 
@@ -51,6 +52,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests().antMatchers("/escolas/cadastro").permitAll().antMatchers("/escolas/autenticacao")
                 .permitAll().antMatchers("/professores/autenticacao").permitAll().antMatchers("/escolas/cnpj")
+                .permitAll().antMatchers("/professores/cadastro").permitAll().antMatchers("/professores/autenticacao")
                 .permitAll().anyRequest().authenticated().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

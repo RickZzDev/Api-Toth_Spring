@@ -1,12 +1,14 @@
 package com.toth.resource;
 
+import com.toth.model.Acesso;
 import com.toth.model.AutenticationRequest;
 import com.toth.model.AuthenticationResponse;
 import com.toth.model.Escola;
-import com.toth.model.EscolaDetails;
+import com.toth.model.GenericUserDetails;
+import com.toth.repository.AcessoRepository;
 import com.toth.repository.EscolaRepository;
 
-import com.toth.service.EscolaDetailsService;
+import com.toth.service.GenericUserDetailsService;
 import com.toth.util.JwtUtil;
 import com.toth.validations.ResponsesBody;
 import com.toth.validations.ValidacoesFormat;
@@ -32,7 +34,13 @@ import java.util.Optional;
 public class EscolaAutenticacaoResource {
 
     @Autowired
+    private AcessoRepository acessoRepository;
+
+    @Autowired
     private EscolaRepository escolaRepository;
+
+    // @Autowired
+    // private Acesso acessoModel;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -41,22 +49,24 @@ public class EscolaAutenticacaoResource {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private EscolaDetailsService escolaDetailsService;
+    private GenericUserDetailsService genericUserDetailService;
 
     @Autowired
     private JwtUtil jwtUtil;
 
     @PostMapping("/autenticacao")
 
-    public ResponseEntity<?> escolaLogin(@RequestBody AutenticationRequest escolaRequest) throws Exception{
+    public ResponseEntity<?> escolaLogin(@RequestBody AutenticationRequest acessoRequest) throws Exception {
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(escolaRequest.getLogin(), escolaRequest.getSenha()));
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(acessoRequest.getLogin(), acessoRequest.getSenha()));
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponsesBody.BAD_LOGIN);
         }
 
-        Escola escola = escolaRepository.findByLogin(escolaRequest.getLogin()).get();
-        final UserDetails userDetails = escolaDetailsService.loadUserByUsername(escola.getLogin());
+        Acesso acesso = acessoRepository.findByLogin(acessoRequest.getLogin()).get();
+        final UserDetails userDetails = genericUserDetailService.loadUserByUsername(acesso.getLogin());
+        Escola escola = escolaRepository.findByAcesso(acesso);
 
         final String jwt = jwtUtil.generateToken(userDetails);
 
@@ -68,16 +78,21 @@ public class EscolaAutenticacaoResource {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> escolaCadastro(@RequestBody @Valid Escola escola, BindingResult bindingResult) {
 
-        if(bindingResult.hasErrors())
+        // return ResponseEntity.ok().body(escolaRepository.save(escola));
+        if (bindingResult.hasErrors())
             return ResponseEntity.badRequest().body(ValidacoesFormat.formatarErros(bindingResult));
 
-        if(escolaRepository.existsByLogin(escola.getLogin()))
+        Acesso acesso = escola.getAcesso();
+        if (acessoRepository.existsByLogin(acesso.getLogin()) == null)
             return ResponseEntity.badRequest().body(ResponsesBody.LOGIN_CADASTRADO);
-        else if(escolaRepository.existsByCnpj(escola.getCnpj()))
+
+        else if (escolaRepository.existsByCnpj(escola.getCnpj()))
             return ResponseEntity.badRequest().body(ResponsesBody.CNPJ_CADASTRADO);
-        else{
-            String senhaEncrypt = passwordEncoder.encode(escola.getSenha());
-            escola.setSenha(senhaEncrypt);
+        else {
+            Acesso login_senha = escola.getAcesso();
+            String senhaEncrypt = passwordEncoder.encode(escola.getAcesso().getSenha());
+            login_senha.setSenha(senhaEncrypt);
+            escola.setAcesso(login_senha);
             return ResponseEntity.ok().body(escolaRepository.save(escola));
         }
     }

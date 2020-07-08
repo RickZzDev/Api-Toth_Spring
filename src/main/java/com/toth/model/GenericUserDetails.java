@@ -5,17 +5,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-public class EscolaDetails implements UserDetails {
+public class GenericUserDetails implements UserDetails {
 
     private String login;
     private String senha;
 
-    public EscolaDetails(Escola escola) {
-        this.login = escola.getLogin();
-        this.senha = escola.getSenha();
+    public GenericUserDetails(Acesso acesso) {
+        this.login = acesso.getLogin();
+        this.senha = acesso.getSenha();
     }
 
-    public EscolaDetails() {
+    public GenericUserDetails() {
     }
 
     @Override

@@ -20,14 +20,15 @@ public class AcessoResource {
     @Autowired
     private AcessoRepository acessoRepository;
 
-
     @GetMapping("")
-    public List<Acesso> getAcessos(){return  acessoRepository.findAll();}
+    public List<Acesso> getAcessos() {
+        return acessoRepository.findAll();
+    }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getAcessoById(@PathVariable Long id){
+    public ResponseEntity<?> getAcessoById(@PathVariable Long id) {
         Optional<?> acessoProcurado = acessoRepository.findById(id);
-        return acessoProcurado.isPresent() ? ResponseEntity.ok(acessoProcurado):ResponseEntity.notFound().build();
+        return acessoProcurado.isPresent() ? ResponseEntity.ok(acessoProcurado) : ResponseEntity.notFound().build();
     }
 
     @PostMapping("/cadastro")
