@@ -31,12 +31,9 @@ public class Professor {
     @NotBlank(message = "Nome não pode estar vazio")
     private String nome;
 
-    @NotBlank(message = "Campo login deve ser obrigatorio")
-    @Column(unique = true)
-    private String login;
-
-    @NotBlank(message = "Campo rg obrigatorio")
-    private String senha;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_acesso")
+    private Acesso acesso;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_endereco")
@@ -54,6 +51,14 @@ public class Professor {
 
     public void setTurmas(List<Turma> turma) {
         this.turmas = turma;
+    }
+
+    public Acesso getAcesso() {
+        return acesso;
+    }
+
+    public void setAcesso(Acesso acesso) {
+        this.acesso = acesso;
     }
 
     public Long getId() {
@@ -80,22 +85,6 @@ public class Professor {
         this.nome = nome;
     }
 
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
     public Endereco getEndereco() {
         return endereco;
     }
@@ -115,7 +104,6 @@ public class Professor {
     @Override
     public String toString() {
         return "Professor{" + "id=" + id + "turmas=" + turmas + ", rg='" + rg + '\'' + ", cpf='" + cpf + '\''
-                + ", nome='" + nome + '\'' + ", login='" + login + '\'' + ", senha='" + senha + '\'' + ", endereco="
-                + endereco + '}';
+                + ", nome='" + nome + '\'' + ", acesso='" + acesso + '\'' + '\'' + ", endereco=" + endereco + '}';
     }
 }

@@ -29,8 +29,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     GenericUserDetailsService genericUserDetailsService;
 
-    @Autowired
-    ProfessorDetailService professorDetailsService;
+    // @Autowired
+    // ProfessorDetailService professorDetailsService;
 
     @Autowired
     JwtRequestFilter jwtRequestFilter;
@@ -41,7 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(genericUserDetailsService);
-        auth.userDetailsService(professorDetailsService);
+        // auth.userDetailsService(professorDetailsService);
     }
 
     @Override

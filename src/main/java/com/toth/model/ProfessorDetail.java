@@ -10,10 +10,10 @@ public class ProfessorDetail implements UserDetails {
     private String login;
     private String senha;
 
-    public ProfessorDetail(Professor professor) {
-        this.login = professor.getLogin();
-        this.senha = professor.getSenha();
-    }
+    // public ProfessorDetail(Professor professor) {
+    // this.login = professor.getLogin();
+    // this.senha = professor.getSenha();
+    // }
 
     public ProfessorDetail() {
     }

@@ -1,8 +1,11 @@
 package com.toth.service;
 
+import com.toth.model.Acesso;
 import com.toth.model.Escola;
+import com.toth.model.GenericUserDetails;
 import com.toth.model.Professor;
 import com.toth.model.ProfessorDetail;
+import com.toth.repository.AcessoRepository;
 import com.toth.repository.EscolaRepository;
 import com.toth.repository.ProfessorRepository;
 
@@ -23,15 +26,18 @@ public class ProfessorDetailService implements UserDetailsService {
     @Autowired
     ProfessorRepository professorRepository;
 
+    @Autowired
+    private AcessoRepository acessoRepository;
+
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Optional<Professor> professor = professorRepository.findByLogin(s);
+        Optional<Acesso> acesso = acessoRepository.findByLogin(s);
 
-        professor.orElseThrow(() -> new UsernameNotFoundException("Professor não encontrado: " + s));
+        acesso.orElseThrow(() -> new UsernameNotFoundException("Professor não encontrado: " + s));
 
         List<String> lista = new ArrayList<>();
 
-        return professor.map(ProfessorDetail::new).get();
+        return acesso.map(GenericUserDetails::new).get();
     }
 
 }

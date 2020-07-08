@@ -1,9 +1,13 @@
 package com.toth.resource;
 
+import com.toth.model.Acesso;
 import com.toth.model.AutenticationRequest;
+import com.toth.model.AuthenticationResponse;
 import com.toth.model.AuthenticationResponseProf;
 import com.toth.model.Professor;
+import com.toth.repository.AcessoRepository;
 import com.toth.repository.ProfessorRepository;
+import com.toth.service.GenericUserDetailsService;
 import com.toth.service.ProfessorDetailService;
 import com.toth.util.JwtUtil;
 import com.toth.validations.ResponsesBody;
@@ -32,47 +36,56 @@ public class ProfessorAutenticacao {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private ProfessorDetailService professsorDetailsService;
-
-    @Autowired
     private JwtUtil jwtUtil;
 
     @Autowired(required = true)
     private PasswordEncoder passwordEncoder;
 
-    @PostMapping("/autenticacao")
-    public ResponseEntity<?> professorLogin(@RequestBody AutenticationRequest professorRequest) throws Exception {
+    @Autowired
+    private AcessoRepository acessoRepository;
 
+    @Autowired
+    private GenericUserDetailsService genericUserDetailService;
+
+    @PostMapping("/autenticacao")
+    public ResponseEntity<?> escolaLogin(@RequestBody AutenticationRequest acessoRequest) throws Exception {
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(professorRequest.getLogin(), professorRequest.getSenha()));
+                    new UsernamePasswordAuthenticationToken(acessoRequest.getLogin(), acessoRequest.getSenha()));
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponsesBody.BAD_LOGIN);
         }
 
-        Professor professor = professorRepository.findByLogin(professorRequest.getLogin()).get();
-        final UserDetails userDetails = professsorDetailsService.loadUserByUsername(professor.getLogin());
+        Acesso acesso = acessoRepository.findByLogin(acessoRequest.getLogin()).get();
+        final UserDetails userDetails = genericUserDetailService.loadUserByUsername(acesso.getLogin());
+        Professor professor = professorRepository.findByAcesso(acesso);
 
         final String jwt = jwtUtil.generateToken(userDetails);
 
         return ResponseEntity.ok().body(new AuthenticationResponseProf(professor, jwt));
+
     }
 
     @PostMapping("/cadastro")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> setProfessor(@Valid @RequestBody Professor professor, BindingResult bindingResult) {
+    public ResponseEntity<?> escolaCadastro(@RequestBody @Valid Professor professor, BindingResult bindingResult) {
+
+        // return ResponseEntity.ok().body(escolaRepository.save(escola));
         if (bindingResult.hasErrors())
             return ResponseEntity.badRequest().body(ValidacoesFormat.formatarErros(bindingResult));
 
-        if (professorRepository.existsByLogin(professor.getLogin()))
+        Acesso acesso = professor.getAcesso();
+        if (acessoRepository.existsByLogin(acesso.getLogin()) == null)
             return ResponseEntity.badRequest().body(ResponsesBody.LOGIN_CADASTRADO);
-        if (professorRepository.existsByRg(professor.getRg()))
+
+        else if (professorRepository.existsByRg(professor.getRg()))
             return ResponseEntity.badRequest().body(ResponsesBody.RG_CADASTRADO);
         else {
-            String senhaEncrypt = passwordEncoder.encode(professor.getSenha());
-            professor.setSenha(senhaEncrypt);
-            return ResponseEntity.ok(professorRepository.save(professor));
+            Acesso login_senha = professor.getAcesso();
+            String senhaEncrypt = passwordEncoder.encode(professor.getAcesso().getSenha());
+            login_senha.setSenha(senhaEncrypt);
+            professor.setAcesso(login_senha);
+            return ResponseEntity.ok().body(professorRepository.save(professor));
         }
-
     }
 }
