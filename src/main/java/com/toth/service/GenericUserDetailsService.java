@@ -25,7 +25,7 @@ public class GenericUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         Optional<Acesso> acesso = acessoRepository.findByLogin(s);
 
-        acesso.orElseThrow(() -> new UsernameNotFoundException("User não encontrada: " + s));
+        acesso.orElseThrow(() -> new UsernameNotFoundException("User não encontrado: " + s));
 
         List<String> lista = new ArrayList<>();
 

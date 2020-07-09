@@ -1,10 +1,6 @@
 package com.toth.resource;
 
-import com.toth.model.Acesso;
-import com.toth.model.AutenticationRequest;
-import com.toth.model.AuthenticationResponse;
-import com.toth.model.AuthenticationResponseProf;
-import com.toth.model.Professor;
+import com.toth.model.*;
 import com.toth.repository.AcessoRepository;
 import com.toth.repository.ProfessorRepository;
 import com.toth.service.GenericUserDetailsService;
@@ -18,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
@@ -75,7 +72,7 @@ public class ProfessorAutenticacao {
             return ResponseEntity.badRequest().body(ValidacoesFormat.formatarErros(bindingResult));
 
         Acesso acesso = professor.getAcesso();
-        if (acessoRepository.existsByLogin(acesso.getLogin()) == null)
+        if (acessoRepository.existsByLogin(acesso.getLogin()))
             return ResponseEntity.badRequest().body(ResponsesBody.LOGIN_CADASTRADO);
 
         else if (professorRepository.existsByRg(professor.getRg()))
@@ -85,7 +82,11 @@ public class ProfessorAutenticacao {
             String senhaEncrypt = passwordEncoder.encode(professor.getAcesso().getSenha());
             login_senha.setSenha(senhaEncrypt);
             professor.setAcesso(login_senha);
-            return ResponseEntity.ok().body(professorRepository.save(professor));
+
+            UserDetails userDetails = new GenericUserDetails(acesso);
+
+            String jwt = jwtUtil.generateToken(userDetails);
+            return ResponseEntity.ok().body(new AuthenticationResponseProf(professorRepository.save(professor), jwt));
         }
     }
 }

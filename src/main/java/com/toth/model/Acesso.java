@@ -14,9 +14,9 @@ public class Acesso {
     @Column(name = "id_acesso")
     private Long id;
 
-    @Email(message = "Email deve ser válido")
-    @NotEmpty(message = "Email é obrigatorio")
+    @NotEmpty(message = "Login é obrigatorio")
     @Size(min = 5, max = 255, message = "O email deve conter entre 5 e 50 caracteres")
+    @Column(unique = true)
     private String login;
 
     @NotEmpty(message = "A senha é obrigatória!")

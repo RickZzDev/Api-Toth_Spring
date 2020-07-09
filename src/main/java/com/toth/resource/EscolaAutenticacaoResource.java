@@ -83,7 +83,7 @@ public class EscolaAutenticacaoResource {
             return ResponseEntity.badRequest().body(ValidacoesFormat.formatarErros(bindingResult));
 
         Acesso acesso = escola.getAcesso();
-        if (acessoRepository.existsByLogin(acesso.getLogin()) == null)
+        if (acessoRepository.existsByLogin(acesso.getLogin()))
             return ResponseEntity.badRequest().body(ResponsesBody.LOGIN_CADASTRADO);
 
         else if (escolaRepository.existsByCnpj(escola.getCnpj()))
@@ -93,7 +93,12 @@ public class EscolaAutenticacaoResource {
             String senhaEncrypt = passwordEncoder.encode(escola.getAcesso().getSenha());
             login_senha.setSenha(senhaEncrypt);
             escola.setAcesso(login_senha);
-            return ResponseEntity.ok().body(escolaRepository.save(escola));
+
+            UserDetails userDetails = new GenericUserDetails(acesso);
+
+            final String jwt = jwtUtil.generateToken(userDetails);
+
+            return ResponseEntity.ok().body(new AuthenticationResponse(escolaRepository.save(escola), jwt));
         }
     }
 

@@ -2,10 +2,8 @@ package com.toth.security;
 
 import com.toth.filters.CorsFilter;
 import com.toth.filters.JwtRequestFilter;
-import com.toth.model.GenericUserDetails;
-import com.toth.service.GenericUserDetailsService;
-import com.toth.service.ProfessorDetailService;
 
+import com.toth.service.GenericUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
