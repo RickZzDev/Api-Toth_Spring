@@ -1,6 +1,10 @@
 package com.toth.model;
 
+import java.util.Optional;
+
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "materia")
@@ -13,9 +17,9 @@ public class Materia {
 
     private String nome;
 
-    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "id_ano")
-    private Ano ano;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Ano.class)
+    private Optional<Ano> ano;
 
     public Long getId() {
         return id;
@@ -33,20 +37,16 @@ public class Materia {
         this.nome = nome;
     }
 
-    public Ano getAno() {
+    public Optional<Ano> getAno() {
         return ano;
     }
 
-    public void setAno(Ano ano) {
+    public void setAno(Optional<Ano> ano) {
         this.ano = ano;
     }
 
     @Override
     public String toString() {
-        return "Materia{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", ano=" + ano +
-                '}';
+        return "Materia{" + "id=" + id + ", nome='" + nome + '\'' + ", ano=" + ano + '}';
     }
 }
