@@ -37,7 +37,7 @@ public class Turma {
 	@NotEmpty
 	private String turno;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = javax.persistence.CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = javax.persistence.CascadeType.MERGE)
 	@JoinTable(name = "turma_aulas", joinColumns = @JoinColumn(name = "id_turma"), inverseJoinColumns = @JoinColumn(name = "id_aula"))
 	@NotNull
 	@NotEmpty
@@ -50,14 +50,6 @@ public class Turma {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	// public Materia getMateria() {
-	// return materia;
-	// }
-
-	// public void setmateria(Materia materia) {
-	// this.materia = materia;
-	// }
 
 	public Integer getNumeroSala() {
 		return numero_sala;

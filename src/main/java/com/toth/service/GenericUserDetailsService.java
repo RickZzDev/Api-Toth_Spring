@@ -28,7 +28,6 @@ public class GenericUserDetailsService implements UserDetailsService {
         acesso.orElseThrow(() -> new UsernameNotFoundException("User não encontrado: " + s));
 
         List<String> lista = new ArrayList<>();
-
         return acesso.map(GenericUserDetails::new).get();
     }
 
