@@ -13,15 +13,22 @@ public class Aulas {
     @Column(name = "id_aula")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH, targetEntity = Materia.class)
-    @JoinColumn(name = "id_materia", insertable = false, updatable = false)
-    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name="id_materia")
     private Materia materia;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH, targetEntity = Professor.class)
-    @JoinColumn(name = "id_professor", insertable = false, updatable = false)
-    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "id_professor")
     private Professor professor;
+
+    public Aulas() {
+
+    }
+
+    public Aulas(Materia materia, Professor professor) {
+        this.materia = materia;
+        this.professor = professor;
+    }
 
     public Long getId() {
         return id;

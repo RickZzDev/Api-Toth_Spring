@@ -1,5 +1,6 @@
 package com.toth.model;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.*;
@@ -17,9 +18,13 @@ public class Materia {
 
     private String nome;
 
-    @JoinColumn(name = "id_ano")
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Ano.class)
-    private Optional<Ano> ano;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE, targetEntity = Ano.class)
+    @JoinTable(
+            name = "materias_anos",
+            joinColumns = @JoinColumn(name = "id_materia"),
+            inverseJoinColumns = @JoinColumn(name = "id_ano")
+    )
+    private List<Ano> ano;
 
     public Long getId() {
         return id;
@@ -37,11 +42,11 @@ public class Materia {
         this.nome = nome;
     }
 
-    public Optional<Ano> getAno() {
+    public List<Ano> getAno() {
         return ano;
     }
 
-    public void setAno(Optional<Ano> ano) {
+    public void setAno(List<Ano> ano) {
         this.ano = ano;
     }
 

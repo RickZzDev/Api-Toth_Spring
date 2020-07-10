@@ -75,11 +75,11 @@ public class Turma {
 		this.ano = ano;
 	}
 
-	public List<Aulas> getAula() {
+	public List<Aulas> getAulas() {
 		return aulas;
 	}
 
-	public void setAula(List<Aulas> aulas) {
+	public void setAulas(List<Aulas> aulas) {
 		this.aulas = aulas;
 	}
 
