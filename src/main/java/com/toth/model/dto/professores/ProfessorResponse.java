@@ -27,6 +27,7 @@ public class ProfessorResponse {
     private Endereco endereco;
     private List<ProfessorTurmasResponse> turmas;
 
+    @JsonIgnore
     private List<ProfessorTurmasResponse> turmasProfessor = new ArrayList<>();
 
     public ProfessorResponse(Professor professor) {
@@ -35,15 +36,20 @@ public class ProfessorResponse {
         this.login = professor.getAcesso().getLogin();
         this.endereco = professor.getEndereco();
 
+        System.out.println(professor.getTurmas());
+
         /* Transformando a lista de turmas recebida no parâmetro do construtor
          * Em uma lista de ProfessorTurmasResponse
          */
-        for(Turma turma: professor.getTurmas()) {
-            modelTurma = Optional.of(turma);
-            turmasProfessor.add(modelTurma.map(ProfessorTurmasResponse::new).get());
-        }
+        if(professor.getTurmas().size() > 0) {
+            System.out.println("aaaaa");
+            for(Turma turma: professor.getTurmas()) {
+                modelTurma = Optional.of(turma);
+                turmasProfessor.add(modelTurma.map(ProfessorTurmasResponse::new).get());
+            }
 
-        this.turmas = turmasProfessor;
+            this.turmas = turmasProfessor;
+        }
     }
 
     public Long getId() {

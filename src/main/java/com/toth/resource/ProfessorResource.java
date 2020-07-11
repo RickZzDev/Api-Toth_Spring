@@ -35,11 +35,11 @@ public class ProfessorResource {
 //       Optional<Professor> professorProcurado = professorRepository.findById(id);
 //
 //       ProfessorResponse professorResponse = professorProcurado.map(ProfessorResponse::new).get();
-//       System.out.println(professorResponse.getId());
 //       if(professorProcurado.isPresent())
 //            return ResponseEntity.ok().body(professorResponse);
 //       else
 //           return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponsesBody.PROFESSOR_NOT_FOUND);
+
         return ResponseEntity.ok().body(professorRepository.findById(id));
     }
 

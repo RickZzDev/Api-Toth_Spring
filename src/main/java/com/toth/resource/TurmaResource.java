@@ -27,7 +27,10 @@ public class TurmaResource {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     private ResponseEntity<?> getTurmaById(@PathVariable Long id){
+        System.out.println("veio aqui");
+
         Optional<?> turmaProcurada = turmaRepository.findById(id);
+        System.out.println("veio aqui");
         return  turmaProcurada.isPresent() ? ResponseEntity.ok().body(turmaProcurada) : ResponseEntity.notFound().build();
     }
 

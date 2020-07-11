@@ -39,7 +39,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(genericUserDetailsService);
-        // auth.userDetailsService(professorDetailsService);
     }
 
     @Override
@@ -48,10 +47,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
         http.csrf().disable();
 
-        http.authorizeRequests().antMatchers("/escolas/cadastro").permitAll().antMatchers("/escolas/autenticacao")
-                .permitAll().antMatchers("/professores/autenticacao").permitAll().antMatchers("/escolas/cnpj")
-                .permitAll().antMatchers("/professores/cadastro").permitAll().antMatchers("/professores/autenticacao")
-                .permitAll().anyRequest().authenticated().and().sessionManagement()
+        http.authorizeRequests()
+                .antMatchers("/escolas/autenticacao").permitAll()
+                .antMatchers("/escolas/cadastro").permitAll()
+                .antMatchers("/professores/autenticacao").permitAll()
+                .anyRequest().authenticated().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(corsFilter, SessionManagementFilter.class);
