@@ -5,8 +5,10 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.toth.model.ComunicadoEscola;
 import com.toth.model.ComunicadoProfessor;
 import com.toth.repository.ComunicadoRepository;
+import com.toth.repository.ComunicadosEscolaRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,35 +25,35 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/comunicados")
-public class ComunicadoResource {
+public class ComunicadoEscolaResource {
 
     @Autowired
-    private ComunicadoRepository comunicadoRepository;
+    private ComunicadosEscolaRepository comunicadoEscola;
 
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
-    private List<ComunicadoProfessor> getComunciados() {
-        return comunicadoRepository.findAll();
+    private List<ComunicadoEscola> getComunciados() {
+        return comunicadoEscola.findAll();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     private ResponseEntity<?> getComunciadoById(@PathVariable Long id) {
-        Optional<?> comunicadoProcurado = comunicadoRepository.findById(id);
+        Optional<?> comunicadoProcurado = comunicadoEscola.findById(id);
         return comunicadoProcurado.isPresent() ? ResponseEntity.ok().body(comunicadoProcurado)
                 : ResponseEntity.notFound().build();
     }
 
     @PostMapping("/cadastro")
     @ResponseStatus(HttpStatus.CREATED)
-    private ResponseEntity<?> comunicadoCadastro(@RequestBody @Valid ComunicadoProfessor comunicado) {
-        return ResponseEntity.ok().body(comunicadoRepository.save(comunicado));
+    private ResponseEntity<?> comunicadoCadastro(@RequestBody @Valid ComunicadoEscola comunicado) {
+        return ResponseEntity.ok().body(comunicadoEscola.save(comunicado));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteComunicado(@PathVariable Long id) {
-        if (comunicadoRepository.existsById(id)) {
-            comunicadoRepository.deleteById(id);
+        if (comunicadoEscola.existsById(id)) {
+            comunicadoEscola.deleteById(id);
             return ResponseEntity.noContent().build();
         } else
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseEntity.notFound());
