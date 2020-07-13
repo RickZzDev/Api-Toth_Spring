@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
-import com.toth.model.Atividades;
+import com.toth.model.Atividade;
 import com.toth.repository.AtividadeRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class AtividadeResource {
 
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
-    private List<Atividades> getAtividades() {
+    private List<Atividade> getAtividades() {
         return atividadeRepository.findAll();
     }
 
@@ -42,9 +42,9 @@ public class AtividadeResource {
                 : ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/cadastro")
+    @PostMapping("/cadastrar")
     @ResponseStatus(HttpStatus.CREATED)
-    private ResponseEntity<?> atividadeCadastro(@RequestBody @Valid Atividades atividade) {
+    private ResponseEntity<?> atividadeCadastro(@RequestBody @Valid Atividade atividade) {
         return ResponseEntity.ok().body(atividadeRepository.save(atividade));
     }
 

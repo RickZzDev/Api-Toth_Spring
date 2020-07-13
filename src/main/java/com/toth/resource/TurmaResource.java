@@ -1,6 +1,9 @@
 package com.toth.resource;
 
+import com.toth.model.Cronograma;
 import com.toth.model.Turma;
+import com.toth.model.dto.turma.TurmaRequest;
+import com.toth.repository.CronogramaRepository;
 import com.toth.repository.TurmaRepository;
 import com.toth.validations.ResponsesBody;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,9 @@ public class TurmaResource {
     @Autowired
     private TurmaRepository turmaRepository;
 
+    @Autowired
+    private CronogramaRepository cronogramaRepository;
+
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
     private List<Turma> getTurmas(){return turmaRepository.findAll();}
@@ -27,17 +33,23 @@ public class TurmaResource {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     private ResponseEntity<?> getTurmaById(@PathVariable Long id){
-        System.out.println("veio aqui");
 
         Optional<?> turmaProcurada = turmaRepository.findById(id);
-        System.out.println("veio aqui");
         return  turmaProcurada.isPresent() ? ResponseEntity.ok().body(turmaProcurada) : ResponseEntity.notFound().build();
     }
 
     @PostMapping("/cadastro")
     @ResponseStatus(HttpStatus.CREATED)
-    private ResponseEntity<?> turmaCadastro(@RequestBody @Valid Turma turma){
+    private ResponseEntity<?> turmaCadastro(@RequestBody @Valid TurmaRequest turmaRequest){
+
+        Cronograma cronograma = cronogramaRepository.findById(turmaRequest.getIdCronograma()).get();
+        turmaRequest.setCronograma(cronograma);
+
+        Optional<TurmaRequest> turmaOptional = Optional.of(turmaRequest);
+        Turma turma = turmaOptional.map(Turma::new).get();
+
         return ResponseEntity.ok().body(turmaRepository.save(turma));
+
     }
 
     @DeleteMapping("/{id}")

@@ -44,7 +44,9 @@ public class Escola {
     private Endereco endereco;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "escolas_materia", joinColumns = @JoinColumn(name = "id_escola"), inverseJoinColumns = @JoinColumn(name = "id_materia"))
+    @JoinTable( name = "escolas_materia",
+                joinColumns = @JoinColumn(name = "id_escola"),
+                inverseJoinColumns = @JoinColumn(name = "id_materia"))
     private List<Materia> materias;
 
     private Boolean pagamentoStatus;

@@ -1,9 +1,8 @@
 package com.toth.resource;
 
-import com.toth.model.Materia;
-import com.toth.model.dto.EscolaCNPJDTO;
+import com.toth.model.dto.escola.EscolaCNPJDTO;
 import com.toth.model.Escola;
-import com.toth.model.dto.EscolaDTO;
+import com.toth.model.dto.escola.EscolaDTO;
 import com.toth.repository.EscolaRepository;
 import com.toth.validations.ResponsesBody;
 import com.toth.validations.ValidacoesFormat;

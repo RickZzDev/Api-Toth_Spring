@@ -42,4 +42,11 @@ public class MateriaResource {
     private ResponseEntity<?> materiaCadastro(@RequestBody Materia materia) {
         return ResponseEntity.ok().body(materiaRepository.save(materia));
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    private void excluirMatéria(@PathVariable Long id) {
+        materiaRepository.deleteById(id);
+    }
+
 }

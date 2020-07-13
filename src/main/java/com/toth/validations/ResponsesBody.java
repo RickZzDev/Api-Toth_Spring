@@ -16,6 +16,8 @@ public class ResponsesBody {
     public final static String CNPJ_VALIDO = jsonResponse(10);
     public final static String CADASTRO_MATERIA_ERRO = jsonResponse(11);
     public final static String BAD_LOGIN = jsonResponse(12);
+    public final static String DIA_LETIVO_NF = jsonResponse(13);
+    public final static String RECURSO_NOT_FOUND = jsonResponse(14);
 
 
     private static String jsonResponse(int i) {
@@ -44,6 +46,10 @@ public class ResponsesBody {
                 return new JSONObject().put("mensagem", "Erro ao cadastrar matérias!").toString();
             case 12:
                 return new JSONObject().put("mensagem", "Login ou senha incorretos!").toString();
+            case 13:
+                return new JSONObject().put("mensagem", "Dia letivo não encontrado!").toString();
+            case 14:
+                return new JSONObject().put("mensagem", "Recurso não encontrado!").toString();
             default:
                 throw new IllegalArgumentException();
         }

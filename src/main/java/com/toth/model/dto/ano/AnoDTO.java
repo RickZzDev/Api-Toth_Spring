@@ -1,4 +1,4 @@
-package com.toth.model.dto;
+package com.toth.model.dto.ano;
 
 import com.toth.model.Ano;
 

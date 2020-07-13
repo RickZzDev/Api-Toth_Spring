@@ -1,4 +1,4 @@
-package com.toth.model.dto;
+package com.toth.model.dto.escola;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

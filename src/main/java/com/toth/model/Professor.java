@@ -39,20 +39,6 @@ public class Professor {
     @JoinColumn(name = "id_endereco")
     private Endereco endereco;
 
-    @ManyToMany(cascade = CascadeType.DETACH)
-    @JoinTable(name = "professor_turma", joinColumns = @JoinColumn(name = "id_professor"), inverseJoinColumns = @JoinColumn(name = "id_turma"))
-    @NotNull
-    @NotEmpty
-    private List<Turma> turmas;
-
-    public List<Turma> getTurmas() {
-        return turmas;
-    }
-
-    public void setTurmas(List<Turma> turma) {
-        this.turmas = turma;
-    }
-
     public Acesso getAcesso() {
         return acesso;
     }
@@ -103,7 +89,13 @@ public class Professor {
 
     @Override
     public String toString() {
-        return "Professor{" + "id=" + id + "turmas=" + turmas + ", rg='" + rg + '\'' + ", cpf='" + cpf + '\''
-                + ", nome='" + nome + '\'' + ", acesso='" + acesso + '\'' + '\'' + ", endereco=" + endereco + '}';
+        return "Professor{" +
+                "id=" + id +
+                ", rg='" + rg + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", nome='" + nome + '\'' +
+                ", acesso=" + acesso +
+                ", endereco=" + endereco +
+                '}';
     }
 }

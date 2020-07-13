@@ -18,14 +18,6 @@ public class Materia {
 
     private String nome;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE, targetEntity = Ano.class)
-    @JoinTable(
-            name = "materias_anos",
-            joinColumns = @JoinColumn(name = "id_materia"),
-            inverseJoinColumns = @JoinColumn(name = "id_ano")
-    )
-    private List<Ano> ano;
-
     public Long getId() {
         return id;
     }
@@ -42,16 +34,11 @@ public class Materia {
         this.nome = nome;
     }
 
-    public List<Ano> getAno() {
-        return ano;
-    }
-
-    public void setAno(List<Ano> ano) {
-        this.ano = ano;
-    }
-
     @Override
     public String toString() {
-        return "Materia{" + "id=" + id + ", nome='" + nome + '\'' + ", ano=" + ano + '}';
+        return "Materia{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                '}';
     }
 }

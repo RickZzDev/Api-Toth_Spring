@@ -1,6 +1,6 @@
 package com.toth.resource;
 
-import com.toth.model.Aulas;
+import com.toth.model.Aula;
 import com.toth.model.AulasRequest;
 import com.toth.model.Materia;
 import com.toth.model.Professor;
@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/aulas")
-public class AulaResouce {
+public class AulaResource {
 
     @Autowired
     private AulaRepository aulaRepository;
@@ -31,7 +31,7 @@ public class AulaResouce {
 
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
-    private List<Aulas> getAulas(){return aulaRepository.findAll();}
+    private List<Aula> getAulas(){return aulaRepository.findAll();}
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -52,7 +52,7 @@ public class AulaResouce {
         Materia materia = materiaRepository.findById(idMateria).get();
 
         // Criando uma aula com o professor e com a matéria que foram buscados com os id's da requisição
-        Aulas aula = new Aulas(materia, professor);
+        Aula aula = new Aula(materia, professor);
 
         return ResponseEntity.ok().body(aulaRepository.save(aula));
     }

@@ -1,11 +1,9 @@
 package com.toth.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
+import com.toth.model.dto.turma.TurmaRequest;
 import net.bytebuddy.implementation.bind.annotation.Default;
 
 import java.util.List;
@@ -22,8 +20,7 @@ public class Turma {
 	@Column(name = "id_turma")
 	private Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Ano.class)
-	@Cascade(CascadeType.DETACH)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Ano.class, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "id_ano", insertable = false, updatable = false)
 	private Ano ano;
 
@@ -31,17 +28,36 @@ public class Turma {
 	@NotEmpty
 	private String identificador;
 
-	private Integer numero_sala;
+	@JsonProperty("numero_sala")
+	private Integer numeroSala;
 
 	@NotNull
 	@NotEmpty
 	private String turno;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = javax.persistence.CascadeType.MERGE)
-	@JoinTable(name = "turma_aulas", joinColumns = @JoinColumn(name = "id_turma"), inverseJoinColumns = @JoinColumn(name = "id_aula"))
-	@NotNull
-	@NotEmpty
-	private List<Aulas> aulas;
+	@OneToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "id_cronograma")
+	private Cronograma cronograma;
+
+	public Turma() {
+
+	}
+
+	public Turma(TurmaRequest turmaRequest) {
+		this.ano = turmaRequest.getAno();
+		this.identificador = turmaRequest.getIdentificador();
+		this.numeroSala = turmaRequest.getNumeroSala();
+		this.turno = turmaRequest.getTurno();
+		this.cronograma = turmaRequest.getCronograma();
+	}
+
+	public Cronograma getCronograma() {
+		return cronograma;
+	}
+
+	public void setCronograma(Cronograma cronograma) {
+		this.cronograma = cronograma;
+	}
 
 	public Long getId() {
 		return id;
@@ -52,11 +68,11 @@ public class Turma {
 	}
 
 	public Integer getNumeroSala() {
-		return numero_sala;
+		return numeroSala;
 	}
 
 	public void setNumeroSala(Integer numero_sala) {
-		this.numero_sala = numero_sala;
+		this.numeroSala = numero_sala;
 	}
 
 	public Ano getAno() {
@@ -65,14 +81,6 @@ public class Turma {
 
 	public void setAno(Ano ano) {
 		this.ano = ano;
-	}
-
-	public List<Aulas> getAulas() {
-		return aulas;
-	}
-
-	public void setAulas(List<Aulas> aulas) {
-		this.aulas = aulas;
 	}
 
 	public String getIdentificador() {
@@ -91,4 +99,15 @@ public class Turma {
 		this.turno = turno;
 	}
 
+	@Override
+	public String toString() {
+		return "Turma{" +
+				"id=" + id +
+				", ano=" + ano +
+				", identificador='" + identificador + '\'' +
+				", numeroSala=" + numeroSala +
+				", turno='" + turno + '\'' +
+				", cronograma=" + cronograma +
+				'}';
+	}
 }
