@@ -37,6 +37,10 @@ public class ComunicadoEscola {
     private boolean somente_alunos;
 
     @ManyToOne
+    @JoinColumn(name = "id_escola")
+    private Escola emissor;
+
+    @ManyToOne
     @JoinColumn(name = "id_professor")
     private List<Professor> professor;
 
@@ -126,6 +130,14 @@ public class ComunicadoEscola {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Escola getEscola() {
+        return emissor;
+    }
+
+    public void setEscola(Escola emissor) {
+        this.emissor = emissor;
     }
 
 }
