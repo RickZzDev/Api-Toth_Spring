@@ -35,7 +35,6 @@ public class AtividadeResource {
     }
 
     @GetMapping("/{id}")
-    // @ResponseStatus(HttpStatus.OK)
     private ResponseEntity<?> getAtividadeById(@PathVariable Long id) {
         Optional<?> atividadeProcurada = atividadeRepository.findById(id);
         return atividadeProcurada.isPresent() ? ResponseEntity.ok().body(atividadeProcurada)

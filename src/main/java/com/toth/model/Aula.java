@@ -27,6 +27,7 @@ public class Aula {
             joinColumns = @JoinColumn(name = "id_aula"),
             inverseJoinColumns = @JoinColumn(name = "id_atividade")
     )
+
     @JsonManagedReference
     private List<Atividade> atividades;
 

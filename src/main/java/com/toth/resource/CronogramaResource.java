@@ -52,6 +52,8 @@ public class CronogramaResource {
         Cronograma cronograma = new Cronograma();
         cronograma.setDiasLetivos(diasLetivos);
 
+        diasLetivos.forEach(diaLetivo -> System.out.println(diaLetivo));
+        System.out.println(cronograma);
         Cronograma cronogramaCadastrado = cronogramaRepository.save(cronograma);
 
         return ResponseEntity

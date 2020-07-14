@@ -2,13 +2,18 @@ package com.toth.resource;
 
 
 import com.toth.model.Ano;
+import com.toth.model.Aula;
+import com.toth.model.DiaLetivo;
+import com.toth.model.Turma;
 import com.toth.repository.AnoRepository;
+import com.toth.repository.TurmaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +23,7 @@ public class AnoResource {
 
     @Autowired
     private AnoRepository anoRepository;
+
 
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)

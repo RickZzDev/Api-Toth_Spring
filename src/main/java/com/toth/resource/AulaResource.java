@@ -1,18 +1,17 @@
 package com.toth.resource;
 
-import com.toth.model.Aula;
-import com.toth.model.AulasRequest;
-import com.toth.model.Materia;
-import com.toth.model.Professor;
+import com.toth.model.*;
 import com.toth.repository.AulaRepository;
 import com.toth.repository.MateriaRepository;
 import com.toth.repository.ProfessorRepository;
+import com.toth.repository.TurmaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +27,9 @@ public class AulaResource {
 
     @Autowired
     private ProfessorRepository professorRepository;
+
+    @Autowired
+    private TurmaRepository turmaRepository;
 
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
@@ -56,4 +58,27 @@ public class AulaResource {
 
         return ResponseEntity.ok().body(aulaRepository.save(aula));
     }
+
+    @GetMapping("/professores/{idProfessor}")
+    public ResponseEntity<?> listarAulasDoProfessor(@PathVariable Long idProfessor) {
+        List<Turma> turmasCadastradas = turmaRepository.findAll();
+
+        List<Aula> aulasMinistradasPeloProfessor = new ArrayList<>();
+
+        for(Turma turma: turmasCadastradas) {
+            List<DiaLetivo> diasLetivosDaTurma = turma.getCronograma().getDiasLetivos();
+
+            for(DiaLetivo diaLetivo: diasLetivosDaTurma) {
+
+                aulasMinistradasPeloProfessor = diaLetivo.getAulas();
+                aulasMinistradasPeloProfessor.removeIf(aula -> aula.getProfessor().getId().equals(idProfessor));
+
+            }
+
+        }
+
+        return ResponseEntity.ok().body(aulasMinistradasPeloProfessor);
+
+    }
+
 }
