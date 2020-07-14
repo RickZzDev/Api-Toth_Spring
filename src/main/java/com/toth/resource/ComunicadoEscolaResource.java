@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/comunicados")
+@RequestMapping("/comunicados-escola")
 public class ComunicadoEscolaResource {
 
     @Autowired
@@ -32,13 +32,13 @@ public class ComunicadoEscolaResource {
 
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
-    private List<ComunicadoEscola> getComunciados() {
+    private List<ComunicadoEscola> getComu() {
         return comunicadoEscola.findAll();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    private ResponseEntity<?> getComunciadoById(@PathVariable Long id) {
+    private ResponseEntity<?> getComuEscolaById(@PathVariable Long id) {
         Optional<?> comunicadoProcurado = comunicadoEscola.findById(id);
         return comunicadoProcurado.isPresent() ? ResponseEntity.ok().body(comunicadoProcurado)
                 : ResponseEntity.notFound().build();
@@ -46,12 +46,12 @@ public class ComunicadoEscolaResource {
 
     @PostMapping("/cadastro")
     @ResponseStatus(HttpStatus.CREATED)
-    private ResponseEntity<?> comunicadoCadastro(@RequestBody @Valid ComunicadoEscola comunicado) {
+    private ResponseEntity<?> comuEscolaCadastro(@RequestBody @Valid ComunicadoEscola comunicado) {
         return ResponseEntity.ok().body(comunicadoEscola.save(comunicado));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteComunicado(@PathVariable Long id) {
+    public ResponseEntity<?> deleteComuEscola(@PathVariable Long id) {
         if (comunicadoEscola.existsById(id)) {
             comunicadoEscola.deleteById(id);
             return ResponseEntity.noContent().build();

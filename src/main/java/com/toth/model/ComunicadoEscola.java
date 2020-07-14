@@ -40,11 +40,11 @@ public class ComunicadoEscola {
     @JoinColumn(name = "id_escola")
     private Escola emissor;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Professor.class)
     @JoinColumn(name = "id_professor")
     private List<Professor> professor;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Aluno.class)
     @JoinColumn(name = "id_aluno")
     private List<Aluno> aluno;
 

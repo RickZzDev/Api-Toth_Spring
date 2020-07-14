@@ -30,13 +30,13 @@ public class ComunicadoResource {
 
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
-    private List<ComunicadoProfessor> getComunciados() {
-        return comunicadoRepository.findAll();
+    private ResponseEntity<?> getComunicados() {
+        return ResponseEntity.ok().body(comunicadoRepository.findAll());
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    private ResponseEntity<?> getComunciadoById(@PathVariable Long id) {
+    private ResponseEntity<?> getComunicadoById(@PathVariable Long id) {
         Optional<?> comunicadoProcurado = comunicadoRepository.findById(id);
         return comunicadoProcurado.isPresent() ? ResponseEntity.ok().body(comunicadoProcurado)
                 : ResponseEntity.notFound().build();
