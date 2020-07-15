@@ -43,7 +43,7 @@ public class AtividadeResource {
 
     @PostMapping("/cadastrar")
     @ResponseStatus(HttpStatus.CREATED)
-    private ResponseEntity<?> atividadeCadastro(@RequestBody @Valid Atividade atividade) {
+    private ResponseEntity<?> atividadeCadastro(@RequestBody Atividade atividade) {
         return ResponseEntity.ok().body(atividadeRepository.save(atividade));
     }
 

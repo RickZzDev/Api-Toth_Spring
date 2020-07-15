@@ -21,6 +21,7 @@ public class Atividade {
             joinColumns = @JoinColumn(name = "id_atividade"),
             inverseJoinColumns = @JoinColumn(name = "id_aula")
     )
+
     @JsonProperty("aulas")
     @JsonBackReference
     private List<Aula> aulas;
