@@ -2,6 +2,7 @@ package com.toth.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -40,9 +41,18 @@ public class ComunicadoProfessor {
 
 	private boolean geral;
 
-	@ManyToMany
-	@JoinTable(name = "comunicado_turma", joinColumns = @JoinColumn(name = "id_comunicado"), inverseJoinColumns = @JoinColumn(name = "id_turma"))
-	private List<Turma> turmas;
+	// @ManyToMany(cascade = CascadeType.ALL)
+	// @JoinTable(name = "comunicado_turmas", joinColumns = @JoinColumn(name =
+	// "id_comunicado"), inverseJoinColumns = @JoinColumn(name = "id_turma"))
+	// private List<Turma> turmas;
+
+	// public List<Turma> getTurmas() {
+	// return turmas;
+	// }
+
+	// public void setTurmas(List<Turma> turmas) {
+	// this.turmas = turmas;
+	// }
 
 	public Long getId() {
 		return id;
@@ -66,14 +76,6 @@ public class ComunicadoProfessor {
 
 	public void setProfessor(Professor professor) {
 		this.professor = professor;
-	}
-
-	public List<Turma> getTurmas() {
-		return turmas;
-	}
-
-	public void setTurma(List<Turma> turma) {
-		this.turmas = turma;
 	}
 
 	public String getPublicoAlvo() {
@@ -108,4 +110,12 @@ public class ComunicadoProfessor {
 		this.materia = materia;
 	}
 
+	@java.lang.Override
+	public java.lang.String toString() {
+		return "ComunicadoProfessor{" + "id=" + id + ", description='" + description + '\'' + ", title='" + title + '\''
+				+ ", publico_alvo='" + publico_alvo + '\'' + ", professor=" + professor + ", materia=" + materia
+				+ ", geral=" + geral +
+				// ", turmas=" + turmas
+				+'}';
+	}
 }
