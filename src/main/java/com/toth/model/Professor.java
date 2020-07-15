@@ -1,5 +1,6 @@
 package com.toth.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
@@ -38,6 +39,31 @@ public class Professor {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_endereco")
     private Endereco endereco;
+
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(
+            name = "professor_materias",
+            joinColumns = @JoinColumn(name = "id_professor"),
+            inverseJoinColumns = @JoinColumn(name = "id_materia")
+    )
+    @JsonProperty("materias")
+    private List<Materia> materias;
+
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(
+            name = "professor_anos",
+            joinColumns = @JoinColumn(name = "id_professor"),
+            inverseJoinColumns = @JoinColumn(name = "id_ano")
+    )
+    private List<Ano> anos;
+
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(
+            name = "professor_turmas",
+            joinColumns = @JoinColumn(name = "id_professor"),
+            inverseJoinColumns = @JoinColumn(name = "id_turma")
+    )
+    private List<Turma> turmas;
 
     public Acesso getAcesso() {
         return acesso;
@@ -87,6 +113,30 @@ public class Professor {
         this.cpf = cpf;
     }
 
+    public List<Materia> getMaterias() {
+        return materias;
+    }
+
+    public void setMaterias(List<Materia> materias) {
+        this.materias = materias;
+    }
+
+    public List<Ano> getAnos() {
+        return anos;
+    }
+
+    public void setAnos(List<Ano> anos) {
+        this.anos = anos;
+    }
+
+    public List<Turma> getTurmas() {
+        return turmas;
+    }
+
+    public void setTurmas(List<Turma> turmas) {
+        this.turmas = turmas;
+    }
+
     @Override
     public String toString() {
         return "Professor{" +
@@ -96,6 +146,9 @@ public class Professor {
                 ", nome='" + nome + '\'' +
                 ", acesso=" + acesso +
                 ", endereco=" + endereco +
+                ", materias=" + materias +
+                ", anos=" + anos +
+                ", turmas=" + turmas +
                 '}';
     }
 }
