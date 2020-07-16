@@ -29,8 +29,6 @@ public class ProfessorResource {
         return ResponseEntity.ok().body(professorRepository.findById(id));
     }
 
-
-
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletar(@PathVariable Long id){
