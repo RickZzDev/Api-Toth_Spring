@@ -50,6 +50,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/escolas/autenticacao").permitAll()
                 .antMatchers("/escolas/cadastro").permitAll()
+                .antMatchers("/escolas/cnpj").permitAll()
                 .antMatchers("/professores/autenticacao").permitAll()
                 .anyRequest().authenticated().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

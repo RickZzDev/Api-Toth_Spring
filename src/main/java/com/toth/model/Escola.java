@@ -44,9 +44,11 @@ public class Escola {
     private Endereco endereco;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable( name = "escolas_materia",
-                joinColumns = @JoinColumn(name = "id_escola"),
-                inverseJoinColumns = @JoinColumn(name = "id_materia"))
+    @JoinTable(
+            name = "escolas_materia",
+            joinColumns = @JoinColumn(name = "id_escola"),
+            inverseJoinColumns = @JoinColumn(name = "id_materia")
+    )
     private List<Materia> materias;
 
     private Boolean pagamentoStatus;
@@ -54,6 +56,14 @@ public class Escola {
     @Enumerated(value = EnumType.STRING)
     @JsonProperty("tipo_escola")
     private TypeEscola typeEscola;
+
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(
+            name = "escolas_anos",
+            joinColumns = @JoinColumn(name = "id_escola"),
+            inverseJoinColumns = @JoinColumn(name = "id_ano")
+    )
+    private List<Ano> anos;
 
     public Long getId() {
         return id;
@@ -119,8 +129,22 @@ public class Escola {
         return typeEscola == null ? null : typeEscola.getDescricao();
     }
 
+    public TypeEscola getTipoDeEscola() {return typeEscola;}
+
     public void setTypeEscola(TypeEscola typeEscola) {
         this.typeEscola = typeEscola;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<Ano> getAnos() {
+        return anos;
+    }
+
+    public void setAnos(List<Ano> anos) {
+        this.anos = anos;
     }
 
     @Override

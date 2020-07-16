@@ -49,21 +49,13 @@ public class Professor {
     @JsonProperty("materias")
     private List<Materia> materias;
 
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "professor_anos",
+            name="professor_ano",
             joinColumns = @JoinColumn(name = "id_professor"),
             inverseJoinColumns = @JoinColumn(name = "id_ano")
     )
     private List<Ano> anos;
-
-    @ManyToMany(cascade = CascadeType.MERGE)
-    @JoinTable(
-            name = "professor_turmas",
-            joinColumns = @JoinColumn(name = "id_professor"),
-            inverseJoinColumns = @JoinColumn(name = "id_turma")
-    )
-    private List<Turma> turmas;
 
     public Acesso getAcesso() {
         return acesso;
@@ -129,14 +121,6 @@ public class Professor {
         this.anos = anos;
     }
 
-    public List<Turma> getTurmas() {
-        return turmas;
-    }
-
-    public void setTurmas(List<Turma> turmas) {
-        this.turmas = turmas;
-    }
-
     @Override
     public String toString() {
         return "Professor{" +
@@ -147,8 +131,6 @@ public class Professor {
                 ", acesso=" + acesso +
                 ", endereco=" + endereco +
                 ", materias=" + materias +
-                ", anos=" + anos +
-                ", turmas=" + turmas +
                 '}';
     }
 }

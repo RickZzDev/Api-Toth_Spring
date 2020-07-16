@@ -14,7 +14,7 @@ public class Ano {
     @Column(name = "id_ano")
     private Long id;
 
-    private Integer ano;
+    private String ano;
 
     public Long getId() {
         return id;
@@ -24,11 +24,11 @@ public class Ano {
         this.id = id;
     }
 
-    public Integer getAno() {
+    public String getAno() {
         return ano;
     }
 
-    public void setAno(Integer ano) {
+    public void setAno(String ano) {
         this.ano = ano;
     }
 
