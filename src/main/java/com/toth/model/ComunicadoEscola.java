@@ -2,6 +2,7 @@ package com.toth.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,7 +37,7 @@ public class ComunicadoEscola {
 
     private boolean somente_alunos;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Escola.class, cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_escola")
     private Escola emissor;
 
@@ -44,11 +45,11 @@ public class ComunicadoEscola {
     @JoinColumn(name = "id_professor")
     private List<Professor> professor;
 
-    @ManyToOne(targetEntity = Aluno.class)
+    @ManyToOne(targetEntity = Ano.class, cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_aluno")
     private List<Aluno> aluno;
 
-    @ManyToMany
+    @ManyToMany(targetEntity = Turma.class, cascade = CascadeType.MERGE)
     @JoinTable(name = "comunicado_turma", joinColumns = @JoinColumn(name = "id_comunicado"), inverseJoinColumns = @JoinColumn(name = "id_turma"))
     private List<Turma> turmas;
 
@@ -132,12 +133,21 @@ public class ComunicadoEscola {
         this.title = title;
     }
 
-    public Escola getEscola() {
-        return emissor;
-    }
+    // public Escola getEscola() {
+    // return emissor;
+    // }
 
-    public void setEscola(Escola emissor) {
-        this.emissor = emissor;
+    // public void setEscola(Escola emissor) {
+    // this.emissor = emissor;
+    // }
+
+    @java.lang.Override
+    public java.lang.String toString() {
+        return "ComunicadoEscola{" + "id=" + id + ", description='" + description + '\'' + ", title='" + title + '\''
+                + ", publico_alvo='" + publico_alvo + '\'' + ", geral=" + geral + ",somente_professores="
+                + somente_professores + ", somente_alunos=" + somente_alunos +
+                // ", emissor=" + emissor +
+                ", professor=" + professor + ", aluno=" + aluno + '}';
     }
 
 }

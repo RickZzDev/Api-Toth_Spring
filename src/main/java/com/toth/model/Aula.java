@@ -18,6 +18,8 @@ public class Aula {
     @ManyToOne(cascade = CascadeType.ALL)
     private Professor professor;
 
+
+
     @ManyToOne(cascade = CascadeType.ALL)
     private Materia materia;
 
