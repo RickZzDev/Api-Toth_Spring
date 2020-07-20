@@ -47,13 +47,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
         http.csrf().disable();
 
-        http.authorizeRequests()
-                .antMatchers("/escolas/autenticacao").permitAll()
-                .antMatchers("/escolas/cadastro").permitAll()
-                .antMatchers("/escolas/cnpj").permitAll()
-                .antMatchers("/professores/autenticacao").permitAll()
-                .anyRequest().authenticated().and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.authorizeRequests().antMatchers("/alunos/autenticacao").permitAll().antMatchers("/escolas/autenticacao")
+                .permitAll().antMatchers("/escolas/cadastro").permitAll().antMatchers("/escolas/cnpj").permitAll()
+                .antMatchers("/professores/autenticacao").permitAll().anyRequest().authenticated().and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(corsFilter, SessionManagementFilter.class);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

@@ -1,6 +1,5 @@
 package com.toth.model;
 
-
 import javax.persistence.*;
 
 @Entity
@@ -25,8 +24,10 @@ public class Aluno {
     private Acesso acesso;
 
     @ManyToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn(name="id_turma")
+    @JoinColumn(name = "id_turma")
     private Turma turma;
+
+    private String nome;
 
     public Long getId() {
         return id;
@@ -34,6 +35,14 @@ public class Aluno {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public Responsavel getResponsavel() {
@@ -70,12 +79,7 @@ public class Aluno {
 
     @Override
     public String toString() {
-        return "Aluno{" +
-                "id=" + id +
-                ", responsavel=" + responsavel +
-                ", contato=" + contato +
-                ", acesso=" + acesso +
-                ", turma=" + turma +
-                '}';
+        return "Aluno{" + "id=" + id + ", responsavel=" + responsavel + ", contato=" + contato + ", acesso=" + acesso
+                + ", nome=" + nome + ", turma=" + turma + '}';
     }
 }
