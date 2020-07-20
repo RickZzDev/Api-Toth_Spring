@@ -1,5 +1,7 @@
 package com.toth.resource;
 
+import com.toth.model.Aula;
+import com.toth.model.Professor;
 import com.toth.model.dto.escola.EscolaCNPJDTO;
 import com.toth.model.Escola;
 import com.toth.model.dto.escola.EscolaDTO;
@@ -84,10 +86,33 @@ public class EscolaResource {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponsesBody.ESCOLA_NOT_FOUND);
 
         Escola escolaAtualizada = escolaDTO.toEscola(escolaOp.get());
-        System.out.println(escolaAtualizada);
 
         return ResponseEntity.ok(escolaRepository.save(escolaAtualizada));
 
+    }
+
+    @GetMapping("/{id}/professores")
+    public ResponseEntity<?> getProfessoresDaEscola(@PathVariable Long id) {
+        Optional<Escola> escola = escolaRepository.findById(id);
+
+        if(!escola.isPresent())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponsesBody.RECURSO_NOT_FOUND);
+
+        return ResponseEntity.ok().body(escola.get().getProfessores());
+    }
+
+    @PostMapping("/{id}/cadastrar-professor")
+    public ResponseEntity<?> cadastrarProfessorNaEscola(@PathVariable Long id, @RequestBody Professor professor) {
+        Optional<Escola> opEscola = escolaRepository.findById(id);
+
+        if(!opEscola.isPresent())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponsesBody.RECURSO_NOT_FOUND);
+
+        Escola escola = opEscola.get();
+
+        escola.addProfessor(professor);
+
+        return ResponseEntity.ok().body(escolaRepository.save(escola));
     }
 
 }

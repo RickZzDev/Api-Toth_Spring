@@ -43,7 +43,7 @@ public class Escola {
     @JoinColumn(name = "id")
     private Endereco endereco;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.REFRESH)
     @JoinTable(
             name = "escolas_materia",
             joinColumns = @JoinColumn(name = "id_escola"),
@@ -57,13 +57,28 @@ public class Escola {
     @JsonProperty("tipo_escola")
     private TypeEscola typeEscola;
 
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(cascade = CascadeType.REFRESH)
     @JoinTable(
             name = "escolas_anos",
             joinColumns = @JoinColumn(name = "id_escola"),
             inverseJoinColumns = @JoinColumn(name = "id_ano")
     )
     private List<Ano> anos;
+
+    @OneToMany(cascade = CascadeType.ALL, targetEntity = Professor.class)
+    private List<Professor> professores;
+
+    public List<Professor> getProfessores() {
+        return professores;
+    }
+
+    public void setProfessores(List<Professor> professores) {
+        this.professores = professores;
+    }
+
+    public void addProfessor(Professor professor) {
+        this.professores.add(professor);
+    }
 
     public Long getId() {
         return id;
@@ -149,8 +164,18 @@ public class Escola {
 
     @Override
     public String toString() {
-        return "Escola{" + "id=" + id + ", email='" + email + '\'' + ", nome='" + nome + '\'' + '\'' + ", acesso='"
-                + acesso + '\'' + ", cnpj='" + cnpj + '\'' + ", endereco='" + endereco + '\'' + ", pagamentoStatus="
-                + pagamentoStatus + '}';
+        return "Escola{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", nome='" + nome + '\'' +
+                ", acesso=" + acesso +
+                ", cnpj='" + cnpj + '\'' +
+                ", endereco=" + endereco +
+                ", materias=" + materias +
+                ", pagamentoStatus=" + pagamentoStatus +
+                ", typeEscola=" + typeEscola +
+                ", anos=" + anos +
+                ", professores=" + professores +
+                '}';
     }
 }

@@ -49,7 +49,7 @@ public class Professor {
     @JsonProperty("materias")
     private List<Materia> materias;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.REFRESH)
     @JoinTable(
             name="professor_ano",
             joinColumns = @JoinColumn(name = "id_professor"),
