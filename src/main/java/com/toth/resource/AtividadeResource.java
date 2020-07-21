@@ -1,12 +1,18 @@
 package com.toth.resource;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
 import com.toth.model.Atividade;
+import com.toth.model.Aula;
+import com.toth.model.Turma;
+import com.toth.model.dto.atividade.AtividadeDTO;
 import com.toth.repository.AtividadeRepository;
+import com.toth.repository.AulaRepository;
+import com.toth.repository.TurmaRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +34,12 @@ public class AtividadeResource {
     @Autowired
     private AtividadeRepository atividadeRepository;
 
+    @Autowired
+    private TurmaRepository turmaRepository;
+
+    @Autowired
+    private AulaRepository aulaRepository;
+
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
     private List<Atividade> getAtividades() {
@@ -43,7 +55,23 @@ public class AtividadeResource {
 
     @PostMapping("/cadastrar")
     @ResponseStatus(HttpStatus.CREATED)
-    private ResponseEntity<?> atividadeCadastro(@RequestBody Atividade atividade) {
+    private ResponseEntity<?> atividadeCadastro(@RequestBody AtividadeDTO atividadeDTO) {
+
+        Long idAula = atividadeDTO.getId_aula();
+
+        Aula aula = aulaRepository.findById(idAula).get();
+
+        List<Long> idTurma = atividadeDTO.getId_turma();
+
+        List<Turma> turmas = turmaRepository.findAllById(idTurma);
+
+        atividadeDTO.setTurmas(turmas);
+
+        atividadeDTO.setAula(aula);
+
+        Optional<AtividadeDTO> atividadeOptional = Optional.of(atividadeDTO);
+        Atividade atividade = atividadeOptional.map(Atividade::new).get();
+
         return ResponseEntity.ok().body(atividadeRepository.save(atividade));
     }
 
@@ -54,6 +82,30 @@ public class AtividadeResource {
             return ResponseEntity.noContent().build();
         } else
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseEntity.notFound());
+    }
+
+    @GetMapping("/professor/{idProfessor}")
+    public ResponseEntity<?> listarAtividadesProfessor(@PathVariable Long idProfessor) {
+        List<Atividade> atividadesCadastradas = atividadeRepository.findAll();
+
+        List<Atividade> atividadesDoProfessor = new ArrayList<>();
+
+        atividadesCadastradas.forEach(atividade -> {
+
+            for (Atividade atividade2 : atividadesCadastradas) {
+
+                if (atividade2.getAulas().getProfessor().getId().equals(idProfessor)) {
+                    atividadesDoProfessor.add(atividade2);
+                    break;
+                }
+                if (atividadesDoProfessor.contains(atividade))
+                    break;
+
+            }
+
+        });
+
+        return ResponseEntity.ok().body(atividadesDoProfessor);
     }
 
 }

@@ -20,8 +20,8 @@ public class Turma {
 	@Column(name = "id_turma")
 	private Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Ano.class, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "id_ano", insertable = false, updatable = false)
+	@ManyToOne(targetEntity = Ano.class, cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_ano")
 	private Ano ano;
 
 	@NotNull
@@ -101,13 +101,7 @@ public class Turma {
 
 	@Override
 	public String toString() {
-		return "Turma{" +
-				"id=" + id +
-				", ano=" + ano +
-				", identificador='" + identificador + '\'' +
-				", numeroSala=" + numeroSala +
-				", turno='" + turno + '\'' +
-				", cronograma=" + cronograma +
-				'}';
+		return "Turma{" + "id=" + id + ", ano=" + ano + ", identificador='" + identificador + '\'' + ", numeroSala="
+				+ numeroSala + ", turno='" + turno + '\'' + ", cronograma=" + cronograma + '}';
 	}
 }

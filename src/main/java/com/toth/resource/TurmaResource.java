@@ -1,10 +1,12 @@
 package com.toth.resource;
 
+import com.toth.model.Ano;
 import com.toth.model.Aula;
 import com.toth.model.Cronograma;
 import com.toth.model.DiaLetivo;
 import com.toth.model.Turma;
 import com.toth.model.dto.turma.TurmaRequest;
+import com.toth.repository.AnoRepository;
 import com.toth.repository.CronogramaRepository;
 import com.toth.repository.TurmaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,24 +31,33 @@ public class TurmaResource {
     @Autowired
     private CronogramaRepository cronogramaRepository;
 
+    @Autowired
+    private AnoRepository anoRepository;
+
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
-    private List<Turma> getTurmas(){return turmaRepository.findAll();}
+    private List<Turma> getTurmas() {
+        return turmaRepository.findAll();
+    }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    private ResponseEntity<?> getTurmaById(@PathVariable Long id){
+    private ResponseEntity<?> getTurmaById(@PathVariable Long id) {
 
         Optional<?> turmaProcurada = turmaRepository.findById(id);
-        return  turmaProcurada.isPresent() ? ResponseEntity.ok().body(turmaProcurada) : ResponseEntity.notFound().build();
+        return turmaProcurada.isPresent() ? ResponseEntity.ok().body(turmaProcurada)
+                : ResponseEntity.notFound().build();
     }
 
     @PostMapping("/cadastro")
     @ResponseStatus(HttpStatus.CREATED)
-    private ResponseEntity<?> turmaCadastro(@RequestBody @Valid TurmaRequest turmaRequest){
+    private ResponseEntity<?> turmaCadastro(@RequestBody @Valid TurmaRequest turmaRequest) {
 
         Cronograma cronograma = cronogramaRepository.findById(turmaRequest.getIdCronograma()).get();
         turmaRequest.setCronograma(cronograma);
+
+        Ano ano = anoRepository.findById(turmaRequest.getIdAno()).get();
+        turmaRequest.setAno(ano);
 
         Optional<TurmaRequest> turmaOptional = Optional.of(turmaRequest);
         Turma turma = turmaOptional.map(Turma::new).get();
@@ -57,14 +68,12 @@ public class TurmaResource {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTurma(@PathVariable Long id) {
-        if(turmaRepository.existsById(id)){
+        if (turmaRepository.existsById(id)) {
             turmaRepository.deleteById(id);
             return ResponseEntity.noContent().build();
         } else
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseEntity.notFound());
     }
-
-
 
     @GetMapping("/professores/{idProfessor}")
     public ResponseEntity<?> listarTurmasDoProfessor(@PathVariable Long idProfessor) {
@@ -74,18 +83,18 @@ public class TurmaResource {
 
         turmasCadastradas.forEach(turma -> {
 
-            for (DiaLetivo diaLetivo: turma.getCronograma().getDiasLetivos()){
+            for (DiaLetivo diaLetivo : turma.getCronograma().getDiasLetivos()) {
 
-                for(Aula aula: diaLetivo.getAulas()) {
+                for (Aula aula : diaLetivo.getAulas()) {
 
-                    if(aula.getProfessor().getId().equals(idProfessor)) {
+                    if (aula.getProfessor().getId().equals(idProfessor)) {
                         turmasDoProfessor.add(turma);
                         break;
                     }
 
                 }
 
-                if(turmasDoProfessor.contains(turma))
+                if (turmasDoProfessor.contains(turma))
                     break;
 
             }

@@ -11,6 +11,9 @@ import javax.validation.constraints.NotEmpty;
 
 public class TurmaRequest {
 
+    private Long idAno;
+
+    @JsonIgnore
     private Ano ano;
 
     @NotNull
@@ -76,5 +79,13 @@ public class TurmaRequest {
 
     public void setIdCronograma(Long idCronograma) {
         this.idCronograma = idCronograma;
+    }
+
+    public Long getIdAno() {
+        return idAno;
+    }
+
+    public void setIdAno(Long idAno) {
+        this.idAno = idAno;
     }
 }
