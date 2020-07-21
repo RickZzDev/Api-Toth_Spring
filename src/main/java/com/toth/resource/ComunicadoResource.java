@@ -1,6 +1,5 @@
 package com.toth.resource;
 
-import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;

@@ -1,12 +1,8 @@
 package com.toth.resource;
 
-import com.toth.model.Aula;
-import com.toth.model.Cronograma;
 import com.toth.model.Cronograma;
 import com.toth.model.DiaLetivo;
 import com.toth.model.dto.cronograma.CronogramaRequest;
-import com.toth.repository.AulaRepository;
-import com.toth.repository.CronogramaRepository;
 import com.toth.repository.CronogramaRepository;
 import com.toth.repository.DiaLetivoRepository;
 import com.toth.validations.ResponsesBody;
@@ -39,10 +35,8 @@ public class CronogramaResource {
     @GetMapping("/{id}")
     public ResponseEntity<?> listarCronograma(@PathVariable Long id) {
         Optional<?> cronogramaBuscado = cronogramaRepository.findById(id);
-        return cronogramaBuscado.isPresent() ?
-                ResponseEntity.ok().body(cronogramaRepository.findById(id))
-                :
-                ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponsesBody.RECURSO_NOT_FOUND);
+        return cronogramaBuscado.isPresent() ? ResponseEntity.ok().body(cronogramaRepository.findById(id))
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponsesBody.RECURSO_NOT_FOUND);
     }
 
     @PostMapping("/cadastrar")
@@ -56,8 +50,7 @@ public class CronogramaResource {
         System.out.println(cronograma);
         Cronograma cronogramaCadastrado = cronogramaRepository.save(cronograma);
 
-        return ResponseEntity
-                .created(URI.create(URI_ENTIDADE_CRIADA + cronogramaCadastrado.getId().toString()))
+        return ResponseEntity.created(URI.create(URI_ENTIDADE_CRIADA + cronogramaCadastrado.getId().toString()))
                 .body(cronogramaCadastrado);
     }
 

@@ -6,8 +6,6 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import com.toth.model.ComunicadoEscola;
-import com.toth.model.ComunicadoProfessor;
-import com.toth.repository.ComunicadoRepository;
 import com.toth.repository.ComunicadosEscolaRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;

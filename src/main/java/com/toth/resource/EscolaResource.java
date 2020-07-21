@@ -1,6 +1,5 @@
 package com.toth.resource;
 
-import com.toth.model.Aula;
 import com.toth.model.Professor;
 import com.toth.model.dto.escola.EscolaCNPJDTO;
 import com.toth.model.Escola;
@@ -35,14 +34,14 @@ public class EscolaResource {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> getEscolaById(@PathVariable Long id) {
         Optional<?> escolaProcurada = escolaRepository.findById(id);
-        return escolaProcurada.isPresent() ? ResponseEntity.ok(escolaProcurada) :
-                                             ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponsesBody.ESCOLA_NOT_FOUND);
+        return escolaProcurada.isPresent() ? ResponseEntity.ok(escolaProcurada)
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponsesBody.ESCOLA_NOT_FOUND);
     }
 
     @PutMapping("")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<?> updateEscola(@Valid @RequestBody Escola escola, BindingResult bindingResult) {
-        if(bindingResult.hasErrors())
+        if (bindingResult.hasErrors())
             return ResponseEntity.badRequest().body(ValidacoesFormat.formatarErros(bindingResult));
 
         return ResponseEntity.ok(escolaRepository.save(escola));
@@ -50,22 +49,21 @@ public class EscolaResource {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteEscola(@PathVariable Long id) {
-        if(escolaRepository.existsById(id)){
+        if (escolaRepository.existsById(id)) {
             escolaRepository.deleteById(id);
             return ResponseEntity.noContent().build();
         } else
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponsesBody.ESCOLA_NOT_FOUND);
     }
 
-
     @CrossOrigin
     @PostMapping("/cnpj")
     public ResponseEntity<?> validationCnpj(@Valid @RequestBody EscolaCNPJDTO escolaCnpj, BindingResult bindingResult) {
 
-        if(bindingResult.hasErrors())
+        if (bindingResult.hasErrors())
             return ResponseEntity.badRequest().body(ResponsesBody.CNPJ_INVALIDO);
 
-        if(escolaRepository.existsByCnpj(escolaCnpj.getCnpj()))
+        if (escolaRepository.existsByCnpj(escolaCnpj.getCnpj()))
             return ResponseEntity.badRequest().body(ResponsesBody.CNPJ_CADASTRADO);
 
         return ResponseEntity.ok().body(ResponsesBody.CNPJ_VALIDO);
@@ -73,16 +71,17 @@ public class EscolaResource {
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<?> atualizarEscola(@PathVariable Long id, @Valid @RequestBody EscolaDTO escolaDTO, BindingResult bindingResult) {
+    public ResponseEntity<?> atualizarEscola(@PathVariable Long id, @Valid @RequestBody EscolaDTO escolaDTO,
+            BindingResult bindingResult) {
 
         System.out.println(escolaDTO);
 
-        if(bindingResult.hasErrors())
+        if (bindingResult.hasErrors())
             return ResponseEntity.badRequest().body(ValidacoesFormat.formatarErros(bindingResult));
 
         Optional<Escola> escolaOp = escolaRepository.findById(id);
 
-        if(!escolaOp.isPresent())
+        if (!escolaOp.isPresent())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponsesBody.ESCOLA_NOT_FOUND);
 
         Escola escolaAtualizada = escolaDTO.toEscola(escolaOp.get());
@@ -95,7 +94,7 @@ public class EscolaResource {
     public ResponseEntity<?> getProfessoresDaEscola(@PathVariable Long id) {
         Optional<Escola> escola = escolaRepository.findById(id);
 
-        if(!escola.isPresent())
+        if (!escola.isPresent())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponsesBody.RECURSO_NOT_FOUND);
 
         return ResponseEntity.ok().body(escola.get().getProfessores());
@@ -105,7 +104,7 @@ public class EscolaResource {
     public ResponseEntity<?> cadastrarProfessorNaEscola(@PathVariable Long id, @RequestBody Professor professor) {
         Optional<Escola> opEscola = escolaRepository.findById(id);
 
-        if(!opEscola.isPresent())
+        if (!opEscola.isPresent())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponsesBody.RECURSO_NOT_FOUND);
 
         Escola escola = opEscola.get();

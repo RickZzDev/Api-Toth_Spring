@@ -1,6 +1,5 @@
 package com.toth.resource;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.toth.model.Endereco;
 import com.toth.repository.EnderecoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +24,10 @@ public class EnderecoResource {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    private ResponseEntity<?> getEnderecoBydId(@PathVariable Long id){
+    private ResponseEntity<?> getEnderecoBydId(@PathVariable Long id) {
         Optional<?> enderecoProcurado = enderecoRepository.findById(id);
-        return enderecoProcurado.isPresent() ? ResponseEntity.ok().body(enderecoProcurado) : ResponseEntity.notFound().build();
+        return enderecoProcurado.isPresent() ? ResponseEntity.ok().body(enderecoProcurado)
+                : ResponseEntity.notFound().build();
     }
 
 }

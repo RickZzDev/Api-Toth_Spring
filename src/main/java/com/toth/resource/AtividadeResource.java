@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.validation.Valid;
-
 import com.toth.model.Atividade;
 import com.toth.model.Aula;
 import com.toth.model.Turma;

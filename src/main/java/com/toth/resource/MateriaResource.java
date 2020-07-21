@@ -1,15 +1,12 @@
 package com.toth.resource;
 
-import com.toth.model.Ano;
 import com.toth.model.Materia;
-import com.toth.repository.AnoRepository;
 import com.toth.repository.MateriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,9 +16,6 @@ public class MateriaResource {
 
     @Autowired
     private MateriaRepository materiaRepository;
-
-    @Autowired
-    private AnoRepository anoRepository;
 
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
