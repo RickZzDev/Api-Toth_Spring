@@ -5,6 +5,7 @@ import com.toth.model.Aula;
 import com.toth.model.Cronograma;
 import com.toth.model.DiaLetivo;
 import com.toth.model.Turma;
+import com.toth.model.dto.turma.TurmaAnoIden;
 import com.toth.model.dto.turma.TurmaRequest;
 import com.toth.repository.AnoRepository;
 import com.toth.repository.CronogramaRepository;
@@ -45,6 +46,18 @@ public class TurmaResource {
         Optional<?> turmaProcurada = turmaRepository.findById(id);
         return turmaProcurada.isPresent() ? ResponseEntity.ok().body(turmaProcurada)
                 : ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/lazy")
+    @ResponseStatus(HttpStatus.OK)
+    private List<TurmaAnoIden> getTurmaByAnoIden() {
+        TurmaAnoIden teste = new TurmaAnoIden();
+        List<Turma> turmas = turmaRepository.findAll();
+
+        List<TurmaAnoIden> turmasAtualizada = teste.toTurma(turmas);
+
+        return turmasAtualizada;
+
     }
 
     @PostMapping("/cadastro")
