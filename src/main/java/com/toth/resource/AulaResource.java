@@ -73,7 +73,7 @@ public class AulaResource {
             for (DiaLetivo diaLetivo : diasLetivosDaTurma) {
 
                 aulasMinistradasPeloProfessor = diaLetivo.getAulas();
-                aulasMinistradasPeloProfessor.removeIf(aula -> aula.getProfessor().getId().equals(idProfessor));
+                aulasMinistradasPeloProfessor.removeIf(aula -> aula.getProfessor().getId() != (idProfessor));
 
             }
 
