@@ -2,6 +2,8 @@ package com.toth.model;
 
 import javax.persistence.*;
 
+import com.toth.model.dto.aluno.AlunoPostDTO;
+
 @Entity
 @Table(name = "aluno")
 public class Aluno {
@@ -28,6 +30,18 @@ public class Aluno {
     private Turma turma;
 
     private String nome;
+
+    public Aluno() {
+
+    }
+
+    public Aluno(AlunoPostDTO alunoPostDTO) {
+        this.responsavel = alunoPostDTO.getResponsavel();
+        this.contato = alunoPostDTO.getContato();
+        this.turma = alunoPostDTO.getTurma();
+        this.nome = alunoPostDTO.getNome();
+        this.acesso = alunoPostDTO.getAcesso();
+    }
 
     public Long getId() {
         return id;

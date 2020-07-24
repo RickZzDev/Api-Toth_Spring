@@ -5,8 +5,12 @@ import com.toth.model.Aluno;
 import com.toth.model.AutenticationRequest;
 import com.toth.model.AuthenticationResponseAluno;
 import com.toth.model.AuthenticationResponseProf;
+import com.toth.model.Turma;
+import com.toth.model.dto.aluno.AlunoDTO;
+import com.toth.model.dto.aluno.AlunoPostDTO;
 import com.toth.repository.AcessoRepository;
 import com.toth.repository.AlunoRepository;
+import com.toth.repository.TurmaRepository;
 import com.toth.service.GenericUserDetailsService;
 import com.toth.util.JwtUtil;
 import com.toth.validations.ResponsesBody;
@@ -22,6 +26,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import java.lang.StackWalker.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,6 +53,9 @@ public class AlunoResource {
     @Autowired
     private AlunoRepository alunoRepository;
 
+    @Autowired
+    private TurmaRepository turmaRepository;
+
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
     private List<Aluno> getAlunos() {
@@ -61,13 +70,33 @@ public class AlunoResource {
 
     @PostMapping("/cadastro")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> alunoCadastro(@RequestBody @Valid Aluno aluno) {
+    public ResponseEntity<?> alunoCadastro(@RequestBody @Valid AlunoPostDTO aluno) {
 
         Acesso login_senha = aluno.getAcesso();
         String senhaEncrypt = passwordEncoder.encode(aluno.getAcesso().getSenha());
         login_senha.setSenha(senhaEncrypt);
+        Turma turma = turmaRepository.findById(aluno.getIdTurma()).get();
+
+        aluno.setTurma(turma);
+        Optional<AlunoPostDTO> alunoOptional = Optional.of(aluno);
+
+        Aluno aluno2 = alunoOptional.map(Aluno::new).get();
+
         aluno.setAcesso(login_senha);
-        return ResponseEntity.ok().body(alunoRepository.save(aluno));
+        return ResponseEntity.ok().body(alunoRepository.save(aluno2));
+    }
+
+    @GetMapping("/turma/{idTurma}/lazy")
+    @ResponseStatus(HttpStatus.OK)
+    private List<AlunoDTO> getAlunoLazy(@PathVariable Long idTurma) {
+        AlunoDTO teste = new AlunoDTO();
+        Optional<Turma> turmaDesejada = turmaRepository.findById(idTurma);
+        List<Aluno> alunos = alunoRepository.findByTurma(turmaDesejada.get());
+
+        List<AlunoDTO> alunosAtualizados = teste.toAluno(alunos);
+
+        return alunosAtualizados;
+
     }
 
     @PostMapping("/autenticacao")

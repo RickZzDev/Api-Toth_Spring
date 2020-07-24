@@ -44,11 +44,6 @@ public class TurmaAnoIden {
 
         });
 
-        // turmaNova.setAno(turma.getAno());
-        // turmaNova.setIdentificador(turma.getIdentificador());
-        // turma.setAno(this.ano);
-        // turma.setIdentificador(this.identificador);
-
         return turmasNovas;
     }
 
