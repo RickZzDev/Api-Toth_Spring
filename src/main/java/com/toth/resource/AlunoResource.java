@@ -114,7 +114,11 @@ public class AlunoResource {
 
         final String jwt = jwtUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok().body(new AuthenticationResponseAluno(aluno, jwt));
+        if (aluno == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().body(new AuthenticationResponseAluno(aluno, jwt));
+        }
 
     }
 }

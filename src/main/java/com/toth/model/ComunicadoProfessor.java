@@ -32,12 +32,8 @@ public class ComunicadoProfessor {
 	private String publico_alvo;
 
 	@ManyToOne
-	@JoinColumn(name = "id_professor")
-	private Professor professor;
-
-	@ManyToOne
-	@JoinColumn(name = "id_materia")
-	private Materia materia;
+	@JoinColumn(name = "id_aula")
+	private Aula aula;
 
 	private boolean geral;
 
@@ -45,12 +41,10 @@ public class ComunicadoProfessor {
 	@JoinTable(name = "comunicado_turmas", joinColumns = @JoinColumn(name = "id_comunicado"), inverseJoinColumns = @JoinColumn(name = "id_turma"))
 	private List<Turma> turmas;
 
-	public List<Turma> getTurmas() {
-		return turmas;
-	}
-
-	public void setTurmas(List<Turma> turmas) {
-		this.turmas = turmas;
+	@Override
+	public String toString() {
+		return "ComunicadoProfessor [aula=" + aula + ", description=" + description + ", geral=" + geral + ", id=" + id
+				+ ", publico_alvo=" + publico_alvo + ", title=" + title + ", turmas=" + turmas + "]";
 	}
 
 	public Long getId() {
@@ -59,30 +53,6 @@ public class ComunicadoProfessor {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public boolean getGeral() {
-		return geral;
-	}
-
-	public void setGeral(boolean geral) {
-		this.geral = geral;
-	}
-
-	public Professor getProfessor() {
-		return professor;
-	}
-
-	public void setProfessor(Professor professor) {
-		this.professor = professor;
-	}
-
-	public String getPublicoAlvo() {
-		return publico_alvo;
-	}
-
-	public void setPublicoAlvo(String publico_alvo) {
-		this.publico_alvo = publico_alvo;
 	}
 
 	public String getDescription() {
@@ -101,18 +71,35 @@ public class ComunicadoProfessor {
 		this.title = title;
 	}
 
-	public Materia getMateria() {
-		return materia;
+	public String getPublico_alvo() {
+		return publico_alvo;
 	}
 
-	public void setMateria(Materia materia) {
-		this.materia = materia;
+	public void setPublico_alvo(String publico_alvo) {
+		this.publico_alvo = publico_alvo;
 	}
 
-	@java.lang.Override
-	public java.lang.String toString() {
-		return "ComunicadoProfessor{" + "id=" + id + ", description='" + description + '\'' + ", title='" + title + '\''
-				+ ", publico_alvo='" + publico_alvo + '\'' + ", professor=" + professor + ", materia=" + materia
-				+ ", geral=" + geral + ", turmas=" + turmas + '}';
+	public Aula getAula() {
+		return aula;
+	}
+
+	public void setAula(Aula aula) {
+		this.aula = aula;
+	}
+
+	public boolean isGeral() {
+		return geral;
+	}
+
+	public void setGeral(boolean geral) {
+		this.geral = geral;
+	}
+
+	public List<Turma> getTurmas() {
+		return turmas;
+	}
+
+	public void setTurmas(List<Turma> turmas) {
+		this.turmas = turmas;
 	}
 }
