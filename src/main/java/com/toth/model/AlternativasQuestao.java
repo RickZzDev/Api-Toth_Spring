@@ -1,6 +1,5 @@
 package com.toth.model;
 
-
 import javax.persistence.*;
 
 @Entity
@@ -12,7 +11,7 @@ public class AlternativasQuestao {
     @Column(name = "id_alternativa")
     private Long id;
 
-    private char alternativa;
+    private String alternativa;
 
     private String enunciadoAlternativa;
 
@@ -26,11 +25,11 @@ public class AlternativasQuestao {
         this.id = id;
     }
 
-    public char getAlternativa() {
+    public String getAlternativa() {
         return alternativa;
     }
 
-    public void setAlternativa(char alternativa) {
+    public void setAlternativa(String alternativa) {
         this.alternativa = alternativa;
     }
 

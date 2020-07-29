@@ -4,9 +4,11 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.toth.model.Atividade;
 import com.toth.model.Aula;
 import com.toth.model.Prova;
 import com.toth.model.dto.prova.ProvaRequest;
+import com.toth.repository.AtividadeRepository;
 import com.toth.repository.AulaRepository;
 import com.toth.repository.ProvaRepository;
 

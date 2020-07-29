@@ -43,6 +43,10 @@ public class Atividade {
 
     private Date dataEntrega;
 
+    @ManyToMany(cascade = CascadeType.REFRESH, targetEntity = Aluno.class)
+    @JoinTable(name = "atividades_alunos", joinColumns = @JoinColumn(name = "id_aluno"), inverseJoinColumns = @JoinColumn(name = "id_atividade"))
+    private List<Aluno> alunosCompletaram;
+
     public Atividade() {
 
     }
@@ -55,6 +59,8 @@ public class Atividade {
         this.turmas = atividadeDTO.getTurmas();
         this.dataEntrega = atividadeDTO.getDataEntrega();
         this.nome = atividadeDTO.getNome();
+        this.alunosCompletaram = atividadeDTO.getAlunosCompletaram();
+
     }
 
     public Long getId() {
@@ -121,11 +127,19 @@ public class Atividade {
         this.dataEntrega = dataEntrega;
     }
 
+    public List<Aluno> getAlunosCompletaram() {
+        return alunosCompletaram;
+    }
+
+    public void setAlunosCompletaram(List<Aluno> alunosCompletaram) {
+        this.alunosCompletaram = alunosCompletaram;
+    }
+
     @Override
     public String toString() {
-        return "Atividade [aulas=" + aulas + ", dataEntrega=" + dataEntrega + ", id=" + id + ", nome=" + nome
-                + ", pontos=" + pontos + ", questoes=" + questoes + ", respostas=" + respostas + ", turmas=" + turmas
-                + "]";
+        return "Atividade [alunosCompletaram=" + alunosCompletaram + ", aulas=" + aulas + ", dataEntrega=" + dataEntrega
+                + ", id=" + id + ", nome=" + nome + ", pontos=" + pontos + ", questoes=" + questoes + ", respostas="
+                + respostas + ", turmas=" + turmas + "]";
     }
 
 }

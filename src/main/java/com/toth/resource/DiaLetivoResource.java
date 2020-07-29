@@ -35,32 +35,32 @@ public class DiaLetivoResource {
     @GetMapping("/{id}")
     public ResponseEntity<?> listarDiaLetivo(@PathVariable Long id) {
         Optional<?> diaLetivoBuscado = diaLetivoRepository.findById(id);
-        return diaLetivoBuscado.isPresent() ?
-                ResponseEntity.ok().body(diaLetivoRepository.findById(id))
-                :
-                ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponsesBody.DIA_LETIVO_NF);
+        return diaLetivoBuscado.isPresent() ? ResponseEntity.ok().body(diaLetivoRepository.findById(id))
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponsesBody.DIA_LETIVO_NF);
     }
 
     @PostMapping("/cadastrar")
     public ResponseEntity<?> cadastrarDiaLetivo(@RequestBody DiaLetivoRequest diaLetivoRequest) {
 
-        // Buscando todas as aulas cujos id's correspondem aos id's recebidos na requisição
+        // Buscando todas as aulas cujos id's correspondem aos id's recebidos na
+        // requisição
         List<Aula> aulasCadastradas = aulaRepository.findAllById(diaLetivoRequest.getIdsAulas());
 
-        // Instanciando um DiaLetivo e passando para ele as aulas cadastradas e o dia da semana;
+        // Instanciando um DiaLetivo e passando para ele as aulas cadastradas e o dia da
+        // semana;
         DiaLetivo diaLetivo = new DiaLetivo();
         diaLetivo.setAulas(aulasCadastradas);
         diaLetivo.setDiaSemana(diaLetivoRequest.getDia());
 
-        diaLetivo.getAulas().forEach(aula -> System.out.println(aula));
+        // diaLetivo.getAulas().forEach(aula -> System.out.println(aula));
 
-        System.out.println(diaLetivo);
+        // System.out.println(diaLetivo);
 
         DiaLetivo diaLetivoCriado = diaLetivoRepository.save(diaLetivo);
 
-        // Retornando resposta HTTP com o DiaLetivo criado e sua respectiva URI de acesso.
-        return ResponseEntity
-                .created(URI.create(URI_ENTIDADE_CRIADA + diaLetivoCriado.getId().toString()))
+        // Retornando resposta HTTP com o DiaLetivo criado e sua respectiva URI de
+        // acesso.
+        return ResponseEntity.created(URI.create(URI_ENTIDADE_CRIADA + diaLetivoCriado.getId().toString()))
                 .body(diaLetivoCriado);
     }
 

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.toth.model.Aluno;
 import com.toth.model.Aula;
 import com.toth.model.Questao;
 import com.toth.model.Resposta;
@@ -18,6 +19,11 @@ public class AtividadeDTO {
     private Long id;
 
     private Long id_aula;
+
+    private List<Long> id_aluno;
+
+    @JsonIgnore
+    private List<Aluno> alunosCompletaram;
 
     private List<Long> id_turma;
 
@@ -117,11 +123,28 @@ public class AtividadeDTO {
         this.dataEntrega = dataEntrega;
     }
 
+    public List<Long> getId_aluno() {
+        return id_aluno;
+    }
+
+    public void setId_aluno(List<Long> id_aluno) {
+        this.id_aluno = id_aluno;
+    }
+
+    public List<Aluno> getAlunosCompletaram() {
+        return alunosCompletaram;
+    }
+
+    public void setAlunosCompletaram(List<Aluno> alunosCompletaram) {
+        this.alunosCompletaram = alunosCompletaram;
+    }
+
     @Override
     public String toString() {
-        return "AtividadeDTO [aula=" + aula + ", dataEntrega=" + dataEntrega + ", id=" + id + ", id_aula=" + id_aula
-                + ", id_turma=" + id_turma + ", nome=" + nome + ", pontos=" + pontos + ", questoes=" + questoes
-                + ", respostas=" + respostas + ", turmas=" + turmas + "]";
+        return "AtividadeDTO [alunosCompletaram=" + alunosCompletaram + ", aula=" + aula + ", dataEntrega="
+                + dataEntrega + ", id=" + id + ", id_aluno=" + id_aluno + ", id_aula=" + id_aula + ", id_turma="
+                + id_turma + ", nome=" + nome + ", pontos=" + pontos + ", questoes=" + questoes + ", respostas="
+                + respostas + ", turmas=" + turmas + "]";
     }
 
 }
