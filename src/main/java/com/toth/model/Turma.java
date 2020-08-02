@@ -35,9 +35,13 @@ public class Turma {
 	@NotEmpty
 	private String turno;
 
-	@OneToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "id_cronograma")
-	private Cronograma cronograma;
+	@ManyToMany(cascade = CascadeType.REFRESH, targetEntity = Aula.class)
+	@JoinTable(name = "turma_aula", joinColumns = @JoinColumn(name = "id_aula"), inverseJoinColumns = @JoinColumn(name = "id_turma"))
+	private List<Aula> aulas;
+
+	// @OneToOne(cascade = CascadeType.MERGE)
+	// @JoinColumn(name = "id_cronograma")
+	// private Cronograma cronograma;
 
 	public Turma() {
 
@@ -48,16 +52,17 @@ public class Turma {
 		this.identificador = turmaRequest.getIdentificador();
 		this.numeroSala = turmaRequest.getNumeroSala();
 		this.turno = turmaRequest.getTurno();
-		this.cronograma = turmaRequest.getCronograma();
+		this.aulas = turmaRequest.getAulas();
+		// this.cronograma = turmaRequest.getCronograma();
 	}
 
-	public Cronograma getCronograma() {
-		return cronograma;
-	}
+	// public Cronograma getCronograma() {
+	// return cronograma;
+	// }
 
-	public void setCronograma(Cronograma cronograma) {
-		this.cronograma = cronograma;
-	}
+	// public void setCronograma(Cronograma cronograma) {
+	// this.cronograma = cronograma;
+	// }
 
 	public Long getId() {
 		return id;
@@ -99,9 +104,18 @@ public class Turma {
 		this.turno = turno;
 	}
 
+	public List<Aula> getAulas() {
+		return aulas;
+	}
+
+	public void setAulas(List<Aula> aulas) {
+		this.aulas = aulas;
+	}
+
 	@Override
 	public String toString() {
-		return "Turma{" + "id=" + id + ", ano=" + ano + ", identificador='" + identificador + '\'' + ", numeroSala="
-				+ numeroSala + ", turno='" + turno + '\'' + ", cronograma=" + cronograma + '}';
+		return "Turma [ano=" + ano + ", aulas=" + aulas + ", id=" + id + ", identificador=" + identificador
+				+ ", numeroSala=" + numeroSala + ", turno=" + turno + "]";
 	}
+
 }

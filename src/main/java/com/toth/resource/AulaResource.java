@@ -65,19 +65,22 @@ public class AulaResource {
     public ResponseEntity<?> listarAulasDoProfessor(@PathVariable Long idProfessor) {
         List<Turma> turmasCadastradas = turmaRepository.findAll();
 
-        List<Aula> aulasMinistradasPeloProfessor = new ArrayList<>();
+        Professor professor = professorRepository.findById(idProfessor).get();
 
-        for (Turma turma : turmasCadastradas) {
-            List<DiaLetivo> diasLetivosDaTurma = turma.getCronograma().getDiasLetivos();
+        Aula aulasMinistradasPeloProfessor = aulaRepository.findByProfessor(professor);
 
-            for (DiaLetivo diaLetivo : diasLetivosDaTurma) {
+        // for (Turma turma : turmasCadastradas) {
+        // List<DiaLetivo> diasLetivosDaTurma = turma.getCronograma().getDiasLetivos();
 
-                aulasMinistradasPeloProfessor = diaLetivo.getAulas();
-                aulasMinistradasPeloProfessor.removeIf(aula -> aula.getProfessor().getId() != (idProfessor));
+        // for (DiaLetivo diaLetivo : diasLetivosDaTurma) {
 
-            }
+        // aulasMinistradasPeloProfessor = diaLetivo.getAulas();
+        // aulasMinistradasPeloProfessor.removeIf(aula -> aula.getProfessor().getId() !=
+        // (idProfessor));
 
-        }
+        // }
+
+        // }
 
         return ResponseEntity.ok().body(aulasMinistradasPeloProfessor);
 

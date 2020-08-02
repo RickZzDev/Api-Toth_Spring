@@ -3,12 +3,16 @@ package com.toth.model.dto.aluno;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.toth.model.Aluno;
 
 public class AlunoDTO {
     private Long id;
 
     private String nome;
+
+    @JsonIgnore
+    private Aluno aluno;
 
     public Long getId() {
         return id;
@@ -41,6 +45,14 @@ public class AlunoDTO {
         });
 
         return alunosNovos;
+    }
+
+    public Aluno getAluno() {
+        return aluno;
+    }
+
+    public void setAluno(Aluno aluno) {
+        this.aluno = aluno;
     }
 
 }

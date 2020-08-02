@@ -4,11 +4,14 @@ import com.toth.model.Ano;
 import com.toth.model.Aula;
 import com.toth.model.Cronograma;
 import com.toth.model.DiaLetivo;
+import com.toth.model.Professor;
 import com.toth.model.Turma;
 import com.toth.model.dto.turma.TurmaAnoIden;
 import com.toth.model.dto.turma.TurmaRequest;
 import com.toth.repository.AnoRepository;
+import com.toth.repository.AulaRepository;
 import com.toth.repository.CronogramaRepository;
+import com.toth.repository.ProfessorRepository;
 import com.toth.repository.TurmaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,12 +34,26 @@ public class TurmaResource {
     private CronogramaRepository cronogramaRepository;
 
     @Autowired
+    private AulaRepository aulaRepository;
+
+    @Autowired
     private AnoRepository anoRepository;
+
+    @Autowired
+    private ProfessorRepository professorRepository;
 
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
     private List<Turma> getTurmas() {
         return turmaRepository.findAll();
+    }
+
+    @PutMapping("")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<?> updateTurma(@RequestBody Turma turma) {
+
+        return ResponseEntity.ok().body(turmaRepository.save(turma));
+
     }
 
     @GetMapping("/{id}")
@@ -64,8 +81,9 @@ public class TurmaResource {
     @ResponseStatus(HttpStatus.CREATED)
     private ResponseEntity<?> turmaCadastro(@RequestBody @Valid TurmaRequest turmaRequest) {
 
-        Cronograma cronograma = cronogramaRepository.findById(turmaRequest.getIdCronograma()).get();
-        turmaRequest.setCronograma(cronograma);
+        // Cronograma cronograma =
+        // cronogramaRepository.findById(turmaRequest.getIdCronograma()).get();
+        // turmaRequest.setCronograma(cronograma);
 
         Ano ano = anoRepository.findById(turmaRequest.getIdAno()).get();
         turmaRequest.setAno(ano);
@@ -88,31 +106,16 @@ public class TurmaResource {
 
     @GetMapping("/professores/{idProfessor}")
     public ResponseEntity<?> listarTurmasDoProfessor(@PathVariable Long idProfessor) {
-        List<Turma> turmasCadastradas = turmaRepository.findAll();
+        Professor professor = professorRepository.findById(idProfessor).get();
 
-        List<Turma> turmasDoProfessor = new ArrayList<>();
+        Aula aulaMinistradasPeloProfessor = aulaRepository.findByProfessor(professor);
 
-        turmasCadastradas.forEach(turma -> {
+        List<Turma> turmasDoProfessor = turmaRepository.findByAulas(aulaMinistradasPeloProfessor);
 
-            for (DiaLetivo diaLetivo : turma.getCronograma().getDiasLetivos()) {
+        // List<Turma> turmasDoProfessor =
+        // turmaRepository.findByAulas(aulasMinistradasPeloProfessor);
 
-                for (Aula aula : diaLetivo.getAulas()) {
-
-                    if (aula.getProfessor().getId().equals(idProfessor)) {
-                        turmasDoProfessor.add(turma);
-                        break;
-                    }
-
-                }
-
-                if (turmasDoProfessor.contains(turma))
-                    break;
-
-            }
-
-        });
-
-        return ResponseEntity.ok().body(turmasDoProfessor);
+        return ResponseEntity.ok(turmasDoProfessor);
     }
 
 }

@@ -120,7 +120,6 @@ public class AtividadeResource {
                 questao.getAlternativasQuestao().forEach(questaoME -> {
                     if (questaoME.getCorreto()) {
                         alternativasCertas.add(questaoME.getAlternativa());
-                        System.out.println(alternativasCertas);
                     }
                 });
             }
@@ -133,9 +132,7 @@ public class AtividadeResource {
         for (int i = 0; i < alternativasCertas.size(); i++) {
             if (alternativasEnviadas.get(i).equals(alternativasCertas.get(i))) {
                 acertos = +1;
-                System.out.println("ACERTOu");
             } else {
-                System.out.println("ERROU");
             }
         }
 
@@ -176,7 +173,6 @@ public class AtividadeResource {
         List<Atividade> atividadesNaoFeitas = new ArrayList<>();
 
         atividadesCadastradas.forEach(atividade -> {
-            System.out.println("RODOU");
 
             if (atividade.getAlunosCompletaram().isEmpty()) {
                 atividadesNaoFeitas.add(atividade);

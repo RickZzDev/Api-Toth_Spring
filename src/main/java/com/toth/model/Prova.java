@@ -1,6 +1,7 @@
 package com.toth.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -32,6 +35,8 @@ public class Prova {
     private String atividadesParaEstudar;
 
     private Date diaProva;
+
+    private String nome;
 
     public Long getId() {
         return id;
@@ -79,6 +84,14 @@ public class Prova {
 
     public void setDiaProva(Date diaProva) {
         this.diaProva = diaProva;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
 }

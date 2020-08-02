@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
 import com.toth.model.Ano;
+import com.toth.model.Aula;
 import com.toth.model.Cronograma;
+
+import java.util.List;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -15,6 +18,11 @@ public class TurmaRequest {
 
     @JsonIgnore
     private Ano ano;
+
+    private List<Long> idsAulas;
+
+    @JsonIgnore
+    private List<Aula> aulas;
 
     @NotNull
     @NotEmpty
@@ -27,8 +35,8 @@ public class TurmaRequest {
     @NotEmpty
     private String turno;
 
-    @JsonProperty("id_cronograma")
-    private Long idCronograma;
+    // @JsonProperty("id_cronograma")
+    // private Long idCronograma;
 
     @JsonIgnore
     private Cronograma cronograma;
@@ -73,13 +81,13 @@ public class TurmaRequest {
         this.cronograma = cronograma;
     }
 
-    public Long getIdCronograma() {
-        return idCronograma;
-    }
+    // public Long getIdCronograma() {
+    // return idCronograma;
+    // }
 
-    public void setIdCronograma(Long idCronograma) {
-        this.idCronograma = idCronograma;
-    }
+    // public void setIdCronograma(Long idCronograma) {
+    // this.idCronograma = idCronograma;
+    // }
 
     public Long getIdAno() {
         return idAno;
@@ -87,5 +95,21 @@ public class TurmaRequest {
 
     public void setIdAno(Long idAno) {
         this.idAno = idAno;
+    }
+
+    public List<Long> getIdsAulas() {
+        return idsAulas;
+    }
+
+    public void setIdsAulas(List<Long> idsAulas) {
+        this.idsAulas = idsAulas;
+    }
+
+    public List<Aula> getAulas() {
+        return aulas;
+    }
+
+    public void setAulas(List<Aula> aulas) {
+        this.aulas = aulas;
     }
 }

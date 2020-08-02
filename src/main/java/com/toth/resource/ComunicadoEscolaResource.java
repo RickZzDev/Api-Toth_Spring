@@ -44,7 +44,7 @@ public class ComunicadoEscolaResource {
 
     @PostMapping("/cadastro")
     @ResponseStatus(HttpStatus.CREATED)
-    private ResponseEntity<?> comuEscolaCadastro(@RequestBody @Valid ComunicadoEscola comunicado) {
+    private ResponseEntity<?> comuEscolaCadastro(@RequestBody ComunicadoEscola comunicado) {
         return ResponseEntity.ok().body(comunicadoEscola.save(comunicado));
     }
 

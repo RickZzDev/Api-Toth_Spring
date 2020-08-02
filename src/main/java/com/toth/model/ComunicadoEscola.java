@@ -29,92 +29,12 @@ public class ComunicadoEscola {
 
     private String title;
 
-    private String publico_alvo;
-
-    private boolean geral;
-
-    private boolean somente_professores;
-
-    private boolean somente_alunos;
-
-    @ManyToOne(targetEntity = Escola.class, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "id_escola")
-    private Escola emissor;
-
-    @ManyToOne(targetEntity = Professor.class)
-    @JoinColumn(name = "id_professor")
-    private List<Professor> professor;
-
-    @ManyToOne(targetEntity = Ano.class, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "id_aluno")
-    private List<Aluno> aluno;
-
-    @ManyToMany(targetEntity = Turma.class, cascade = CascadeType.MERGE)
-    @JoinTable(name = "comunicado_turma", joinColumns = @JoinColumn(name = "id_comunicado"), inverseJoinColumns = @JoinColumn(name = "id_turma"))
-    private List<Turma> turmas;
-
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public boolean getSomenteProfessores() {
-        return somente_professores;
-    }
-
-    public void setSomenteProfessores(boolean somente_professores) {
-        this.somente_professores = somente_professores;
-    }
-
-    public boolean getSomenteAlunos() {
-        return somente_alunos;
-    }
-
-    public void setSomenteAlunos(boolean somente_alunos) {
-        this.somente_alunos = somente_alunos;
-    }
-
-    public boolean getGeral() {
-        return geral;
-    }
-
-    public void setGeral(boolean geral) {
-        this.geral = geral;
-    }
-
-    public List<Professor> getProfessor() {
-        return professor;
-    }
-
-    public void setProfessor(List<Professor> professor) {
-        this.professor = professor;
-    }
-
-    public List<Aluno> getAluno() {
-        return aluno;
-    }
-
-    public void setAluno(List<Aluno> alunos) {
-        this.aluno = alunos;
-    }
-
-    public List<Turma> getTurmas() {
-        return turmas;
-    }
-
-    public void setTurma(List<Turma> turma) {
-        this.turmas = turma;
-    }
-
-    public String getPublicoAlvo() {
-        return publico_alvo;
-    }
-
-    public void setPublicoAlvo(String publico_alvo) {
-        this.publico_alvo = publico_alvo;
     }
 
     public String getDescription() {
@@ -133,21 +53,9 @@ public class ComunicadoEscola {
         this.title = title;
     }
 
-    // public Escola getEscola() {
-    // return emissor;
-    // }
-
-    // public void setEscola(Escola emissor) {
-    // this.emissor = emissor;
-    // }
-
-    @java.lang.Override
-    public java.lang.String toString() {
-        return "ComunicadoEscola{" + "id=" + id + ", description='" + description + '\'' + ", title='" + title + '\''
-                + ", publico_alvo='" + publico_alvo + '\'' + ", geral=" + geral + ",somente_professores="
-                + somente_professores + ", somente_alunos=" + somente_alunos +
-                // ", emissor=" + emissor +
-                ", professor=" + professor + ", aluno=" + aluno + '}';
+    @Override
+    public String toString() {
+        return "ComunicadoEscola [description=" + description + ", id=" + id + ", title=" + title + "]";
     }
 
 }
